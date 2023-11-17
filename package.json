@@ -1,0 +1,30 @@
+{
+  "name": "test",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.13",
+    "mongodb": "^6.1.0",
+    "mongodb-stitch-browser-sdk": "^4.8.0",
+    "next": "latest",
+    "next.js": "^1.0.3",
+    "qrcode-decoder": "^0.3.3",
+    "quagga": "^0.12.1",
+    "react": "latest",
+    "react-dom": "latest",
+    "request": "^2.88.2",
+    "requests": "^0.3.0",
+    "zxing-typescript": "^0.1.2"
+  },
+  "devDependencies": {
+    "html5-qrcode": "^2.3.8"
+  }
+}
