@@ -14,6 +14,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import LinearProgress from '@mui/material/LinearProgress';
 import Alert from '@mui/material/Alert';
+import 'chart.js/auto';
 
 export default function Page() {
   const theme = createTheme({
