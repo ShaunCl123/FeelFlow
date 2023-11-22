@@ -48,7 +48,7 @@ export default function Page() {
             Welcome to the Health App
           </Typography>
           <Typography variant="body1" align="center">
-            This app is designed to help you monitor and improve your health. It provides various tools and features, including a scanner for health-related data and charts to track your progress.  This app is now on the web :D
+            This app is designed to help you monitor and improve your health. It provides various tools and features, including a scanner for health-related data and charts to track your progress.
           </Typography>
         </Box>
       </Container>
