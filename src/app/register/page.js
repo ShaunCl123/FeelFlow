@@ -24,20 +24,24 @@ export default function Register() {
 
     const userData = { email, pass };
 
-    const res = await fetch('api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userData),
-    });
+    try {
+      const res = await fetch('http://localhost:3000/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
 
-    if (res.ok) {
-      console.log('User Registered');
-      // Redirect to the login page upon successful registration
-      window.location.href = '/login'; // Adjust the path as needed
-    } else {
-      console.log('User not Registered');
+      if (res.ok) {
+        console.log('User Registered');
+        // Redirect to the login page upon successful registration
+        window.location.href = '/login'; // Adjust the path as needed
+      } else {
+        console.error('Error during registration:', res.status, await res.text());
+      }
+    } catch (error) {
+      console.error('Error during registration:', error);
     }
   };
 
@@ -90,7 +94,6 @@ export default function Register() {
               value={pass}
               onChange={(e) => setPass(e.target.value)}
             />
-            {/* ... other form fields ... */}
             <Button
               type="submit"
               fullWidth
@@ -99,7 +102,6 @@ export default function Register() {
             >
               Sign Up
             </Button>
-            {/* ... other form elements ... */}
           </Box>
         </Box>
       </Container>
