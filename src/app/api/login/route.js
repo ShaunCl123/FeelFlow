@@ -11,13 +11,13 @@ export async function GET(req, res) {
   console.log(pass);
 
   const { MongoClient } = require('mongodb');
-  const url = 'mongodb://your-username:your-password@localhost:27017/'; // Replace with your MongoDB connection string
+  const url = 'mongodb+srv://shaun:shaun123@cluster0.hgdl308.mongodb.net/?retryWrites=true&w=majority'; // Replace with your MongoDB connection string
   const client = new MongoClient(url);
-  const dbName = 'user-registration'; // Use the same database name as in your registration code
+  const dbName = 'app'; // Use the same database name as in your registration code
   await client.connect();
   console.log('Connected successfully to server');
   const db = client.db(dbName);
-  const collection = db.collection('users'); // Use the same collection name as in your registration code
+  const collection = db.collection('login'); // Use the same collection name as in your registration code
 
   try {
     const findResult = await collection.find({ "email": email, "pass": pass }).toArray();
