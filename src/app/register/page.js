@@ -24,7 +24,7 @@ export default function Register() {
 
     const userData = { email, pass };
 
-    const res = await fetch('http://localhost:3000/api/register', {
+    const res = await fetch('api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
