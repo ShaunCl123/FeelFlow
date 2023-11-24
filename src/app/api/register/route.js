@@ -1,29 +1,54 @@
-export async function GET(req, res) {
+import { MongoClient } from 'mongodb';
+import { Response } from '@sveltejs/kit';
 
-  // Make a note we are on
-  // the api. This goes to the console.
-  console.log("in the api page")
+// MongoDB Atlas connection URI
+const uri = 'mongodb+srv://shaun:shaun123@cluster0.hgdl308.mongodb.net/?retryWrites=true&w=majority';
 
+// Database name
+const dbName = 'app';
 
-  // get the values
-  // that were sent across to us.
-  const { searchParams } = new URL(req.url)
-  const email = searchParams.get('email')
-  const numb = searchParams.get('numb')
-  const add = searchParams.get('add')
-  const pass = searchParams.get('pass')
+export async function POST(req, res) {
+  try {
+    const { email, pass } = req.body;
 
-  console.log(email);
-  console.log(pass);
-  console.log(numb);
-  console.log(add);
+    // Validate input data
+    if (!email || !pass) {
+      return Response.json({ error: 'Invalid data. Both email and password are required.' }, { status: 400 });
+    }
 
+    // Connect to MongoDB Atlas
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    await client.connect();
 
- 
+    // Access the database
+    const database = client.db(dbName);
 
-  // database call goes here
+    // Access the 'login' collection
+    const collection = database.collection('login');
 
-  // at the end of the process we need to send something back.
-  return Response.json({ "data":"valid" })
+    // Check if the user already exists
+    const existingUser = await collection.findOne({ email });
+
+    if (existingUser) {
+      return Response.json({ error: 'User with this email already exists.' }, { status: 400 });
+    }
+
+    // Create a new user document
+    const newUser = {
+      email,
+      pass, // Note: You should hash the password before storing it in the database
+    };
+
+    // Insert the new user into the 'login' collection
+    const result = await collection.insertOne(newUser);
+
+    // Close the MongoDB connection
+    await client.close();
+
+    // Redirect to the login page upon successful registration
+    return Response.redirect(302, '/login'); // Adjust the path as needed
+  } catch (error) {
+    console.error('Error in API endpoint:', error);
+    return Response.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
 }
-

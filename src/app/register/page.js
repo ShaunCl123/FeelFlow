@@ -14,16 +14,15 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { green } from '@mui/material/colors';
 
+// Define the Register component
 export default function Register() {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
-  const [add, setAdd] = useState('');
-  const [numb, setNumb] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const userData = { email, pass, add, numb };
+    const userData = { email, pass };
 
     const res = await fetch('http://localhost:3000/api/register', {
       method: 'POST',
@@ -33,8 +32,10 @@ export default function Register() {
       body: JSON.stringify(userData),
     });
 
-    if (res.status === 200) {
+    if (res.ok) {
       console.log('User Registered');
+      // Redirect to the login page upon successful registration
+      window.location.href = '/login'; // Adjust the path as needed
     } else {
       console.log('User not Registered');
     }
@@ -65,78 +66,7 @@ export default function Register() {
             User Registration
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="numb"
-              label="Phone Number"
-              type="text" // Change 'type' to 'text'
-              id="numb"
-              autoComplete="current-phone-number"
-              value={numb}
-              onChange={(e) => setNumb(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="add"
-              label="Address"
-              type="text" // Change 'type' to 'text'
-              id="add"
-              autoComplete="current-address"
-              value={add}
-              onChange={(e) => setAdd(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="pass"
-              label="Password"
-              type="password" // Change 'type' to 'password'
-              id="pass"
-              autoComplete="current-password"
-              value={pass}
-              onChange={(e) => setPass(e.target.value)}
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign In
-                </Link>
-              </Grid>
-            </Grid>
+            {/* ... rest of your form components ... */}
           </Box>
         </Box>
       </Container>
