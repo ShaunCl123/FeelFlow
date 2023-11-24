@@ -6,9 +6,17 @@ const uri = 'mongodb+srv://shaun:<password>@cluster0.hgdl308.mongodb.net/?retryW
 // Database name
 const dbName = 'app';
 
-export async function post(request) {
+// Function to handle GET requests
+export async function get(req, res) {
+  // Handle GET requests here
+  res.end('GET request handled');
+}
+
+// Function to handle POST requests
+export async function post(req, res) {
   try {
-    const { email, pass } = request.body;
+    // Replace the following lines with your actual logic for handling user registration
+    const { email, pass } = req.body;
 
     // Validate input data
     if (!email || !pass) {
