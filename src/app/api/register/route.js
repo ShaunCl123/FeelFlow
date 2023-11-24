@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb';
 
 // MongoDB Atlas connection URI
-const uri = 'mongodb+srv://shaun:<password>@cluster0.hgdl308.mongodb.net/?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://shaun:shaun123@cluster0.hgdl308.mongodb.net/?retryWrites=true&w=majority';
 
 // Database name
 const dbName = 'app';
