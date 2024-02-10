@@ -15,6 +15,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
+//Calendar component
 // Main component
 export default function Page() {
   // Create a theme
