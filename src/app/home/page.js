@@ -11,11 +11,10 @@ import { green } from '@mui/material/colors';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 
-// Import Calendar component and its styles
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+// Import DatePicker component and its styles from react-datepicker
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-//Calendar component
 // Main component
 export default function Page() {
   // Create a theme
@@ -27,7 +26,7 @@ export default function Page() {
     },
   });
 
-  // State for the calendar date and reminders
+  // State for the selected date and reminders
   const [date, setDate] = React.useState(new Date());
   const [reminders, setReminders] = React.useState({});
 
@@ -74,8 +73,8 @@ export default function Page() {
             This app is designed to help you monitor and improve your health. It provides various tools and features, including a scanner for health-related data and charts to track your progress.
           </Typography>
 
-          {/* Calendar component with reminder input */}
-          <Calendar onChange={setDate} value={date} />
+          {/* DatePicker component with reminder input */}
+          <DatePicker selected={date} onChange={date => setDate(date)} />
           <input
             type="text"
             placeholder="Add a reminder"
