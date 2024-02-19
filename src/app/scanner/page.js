@@ -6,19 +6,16 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 
-
-
-
-export default function Page() {
+export default function Scanner() {
   const [dbData, setDbData] = useState(null);
 
   // Function to handle the QR code scan success.
   function onScanSuccess(decodedText, decodedResult) {
     console.log(`Scan result: ${decodedText}`, decodedResult);
 
-
-    
     // Fetch data from the API route
     fetch(`/api/scanner?code=${decodedText}`)
       .then(response => response.json())
@@ -31,10 +28,6 @@ export default function Page() {
       .catch(error => {
         console.error('Error fetching data from the server:', error);
       });
-
-
-
-
 
     // If QR code has a valid URL, redirects user to URL.
     // Add your URL handling logic here
@@ -69,10 +62,40 @@ export default function Page() {
       <Container component="main" maxWidth="xs">
         <div id="reader" style={{ width: '100%' }}></div>
         {/* Display or handle dbData as needed */}
-
-        Content:
-        {JSON.stringify(dbData)}
+        <Typography variant="h6" gutterBottom>
+          Content:
+        </Typography>
+        <Box border={1} p={2} mt={2}>
+          <Typography variant="body1">{JSON.stringify(dbData)}</Typography>
+        </Box>
       </Container>
+      {/* Grid Bars */}
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <Box border={1} p={2} mt={2}>
+            <Typography variant="body1">Some additional words here.</Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Box border={1} p={2} mt={2}>
+            <Typography variant="body1">And more words here.</Typography>
+          </Box>
+        </Grid>
+      </Grid>
+      {/* Footer */}
+      <Box
+        sx={{
+          backgroundColor: '#333',
+          width: '100%',
+          padding: '20px',
+          textAlign: 'center',
+          marginTop: '20px',
+        }}
+      >
+        <Typography variant="body1" color="primary">
+          © 2024 All rights reserved.
+        </Typography>
+      </Box>
     </div>
   );
 }

@@ -65,6 +65,22 @@ export default function Register() {
             alignItems: 'center',
           }}
         >
+          {/* Header */}
+          <Box
+            sx={{
+              backgroundColor: '#333',
+              width: '100%',
+              padding: '20px',
+              textAlign: 'center',
+              marginBottom: '20px',
+            }}
+          >
+            <Typography variant="h4" color="primary">
+              User Registration
+            </Typography>
+          </Box>
+
+          {/* Form */}
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}></Avatar>
           <Typography component="h1" variant="h5">
             User Registration
@@ -102,6 +118,44 @@ export default function Register() {
             >
               Sign Up
             </Button>
+
+            {/* Grid Boxes */}
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <Box border={1} p={2}>
+                  <Typography variant="body1">Some additional words here.</Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Box border={1} p={2}>
+                  <Typography variant="body1">And more words here.</Typography>
+                </Box>
+              </Grid>
+            </Grid>
+
+            {/* Footer */}
+            <Box
+              sx={{
+                backgroundColor: '#333',
+                width: '100%',
+                padding: '20px',
+                textAlign: 'center',
+                marginTop: '20px',
+              }}
+            >
+              <Typography variant="body1" color="primary">
+                © 2024 All rights reserved.
+              </Typography>
+            </Box>
+
+            {/* Links */}
+            <Grid container>
+              <Grid item xs>
+                <Link href="/login" variant="body2">
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
       </Container>

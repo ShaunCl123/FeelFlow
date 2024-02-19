@@ -10,6 +10,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { green } from '@mui/material/colors';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
+import Grid from '@mui/material/Grid';
 
 // Import DatePicker component and its styles from react-datepicker
 import DatePicker from "react-datepicker";
@@ -87,8 +88,37 @@ export default function Page() {
               Reminder: {reminders[date.toDateString()]}
             </Typography>
           )}
+
+          {/* Grid Boxes */}
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Box border={1} p={2} mt={4}>
+                <Typography variant="body1">Some additional words here.</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Box border={1} p={2} mt={4}>
+                <Typography variant="body1">And more words here.</Typography>
+              </Box>
+            </Grid>
+          </Grid>
         </Box>
       </Container>
+      
+      {/* Footer */}
+      <Box
+        sx={{
+          backgroundColor: '#333',
+          width: '100%',
+          padding: '20px',
+          textAlign: 'center',
+          marginTop: '20px',
+        }}
+      >
+        <Typography variant="body1" color="primary">
+          © 2024 All rights reserved.
+        </Typography>
+      </Box>
     </ThemeProvider>
   );
 }
