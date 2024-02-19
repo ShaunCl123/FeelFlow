@@ -113,12 +113,12 @@ export default function Page() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <Box border={1} p={2}>
-                  <Typography variant="body1">Some additional words here.</Typography>
+                  <Typography variant="body1">Please Proceed to Login above.</Typography>
                 </Box>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Box border={1} p={2}>
-                  <Typography variant="body1">And more words here.</Typography>
+                  <Typography variant="body1">There are also links to the password recovery page and a Register page for new users.</Typography>
                 </Box>
               </Grid>
             </Grid>

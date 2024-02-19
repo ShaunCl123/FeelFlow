@@ -73,12 +73,12 @@ export default function Scanner() {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Box border={1} p={2} mt={2}>
-            <Typography variant="body1">Some additional words here.</Typography>
+            <Typography variant="body1">In order to access the scanner you have to allow access to your camera.</Typography>
           </Box>
         </Grid>
         <Grid item xs={12} sm={6}>
           <Box border={1} p={2} mt={2}>
-            <Typography variant="body1">And more words here.</Typography>
+            <Typography variant="body1">The barcodes are read from our database and will display the data on these items.</Typography>
           </Box>
         </Grid>
       </Grid>
