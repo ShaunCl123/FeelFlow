@@ -1,19 +1,18 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import { Chart } from 'chart.js/auto';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import Container from '@mui/material/Container';
-import { createTheme } from '@mui/material/styles';
-import { green, yellow, red, blue } from '@mui/material/colors';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import LinearProgress from '@mui/material/LinearProgress';
 import Alert from '@mui/material/Alert';
+import Grid from '@mui/material/Grid';
+import { createTheme } from '@mui/material/styles';
+import { green, yellow, red, blue } from '@mui/material/colors';
 import 'chart.js/auto';
 
 export default function Page() {
@@ -29,6 +28,7 @@ export default function Page() {
   });
 
   const [coffeeIntake, setCoffeeIntake] = useState(0);
+  const [backgroundColor, setBackgroundColor] = useState('white'); // State to track background color
 
   // Use a ref to hold the chart instance
   const chartRef = useRef(null);
@@ -44,6 +44,10 @@ export default function Page() {
     if (cups === 3) {
       alert('You have reached the maximum coffee intake for the day!');
     }
+  };
+
+  const toggleBackgroundColor = () => {
+    setBackgroundColor((prevColor) => (prevColor === 'white' ? 'black' : 'white'));
   };
 
   // create and update the chart
@@ -88,7 +92,7 @@ export default function Page() {
   }, [coffeeIntake]);
 
   return (
-    <div>
+    <div style={{ backgroundColor: backgroundColor, minHeight: '100vh', transition: 'background-color 0.5s ease' }}>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6">My App</Typography>
@@ -98,10 +102,10 @@ export default function Page() {
           <Button color="inherit" href="/scanner">
             Scanner
           </Button>
+          <Button color="inherit" onClick={toggleBackgroundColor}>Toggle Background</Button> {/* Added button */}
         </Toolbar>
       </AppBar>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
         <Box
           sx={{
             marginTop: 8,
@@ -110,38 +114,58 @@ export default function Page() {
             alignItems: 'center',
           }}
         >
-          <div>
-            <canvas id="myChart"></canvas>
-          </div>
-          <TextField
-            label="Enter number of cups"
-            variant="outlined"
-            type="number"
-            onChange={handleCoffeeInputChange}
-            value={coffeeIntake}
-            inputProps={{ max: 3, min: 0 }}
-          />
-          <LinearProgress
-            variant="determinate"
-            value={(coffeeIntake / 3) * 100}
-            sx={{ width: '80%', marginTop: 2, height: 20 }}
-            color={
-              coffeeIntake === 1 ? 'success' : coffeeIntake === 2 ? 'warning' : 'error'
-            }
-          />
-          {coffeeIntake === 3 && (
-            <Alert severity="warning" sx={{ marginTop: 2 }}>
-              You have reached the maximum coffee intake for the day!
-            </Alert>
-          )}
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant="h4" color="primary">
+                Coffee Consumption
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <div>
+                <canvas id="myChart"></canvas>
+              </div>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Enter number of cups"
+                variant="outlined"
+                type="number"
+                onChange={handleCoffeeInputChange}
+                value={coffeeIntake}
+                inputProps={{ max: 3, min: 0 }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <LinearProgress
+                variant="determinate"
+                value={(coffeeIntake / 3) * 100}
+                sx={{ width: '80%' }}
+                color={
+                  coffeeIntake === 1 ? 'success' : coffeeIntake === 2 ? 'warning' : 'error'
+                }
+              />
+              {coffeeIntake === 3 && (
+                <Alert severity="warning" sx={{ marginTop: 2 }}>
+                  You have reached the maximum coffee intake for the day!
+                </Alert>
+              )}
+            </Grid>
+          </Grid>
         </Box>
       </Container>
+      <Box
+        sx={{
+          backgroundColor: '#333',
+          width: '100%',
+          padding: '20px',
+          textAlign: 'center',
+          marginTop: '20px',
+        }}
+      >
+        <Typography variant="body1" color="primary">
+          © 2024 All rights reserved.
+        </Typography>
+      </Box>
     </div>
   );
-}
-
-async function runDBCallAsync(url) {
-  const res = await fetch(url);
-  const data = await res.json();
-  return data;
 }

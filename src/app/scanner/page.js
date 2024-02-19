@@ -11,6 +11,11 @@ import Box from '@mui/material/Box';
 
 export default function Scanner() {
   const [dbData, setDbData] = useState(null);
+  const [backgroundColor, setBackgroundColor] = useState('white'); // State to track background color
+
+  const toggleBackgroundColor = () => {
+    setBackgroundColor((prevColor) => (prevColor === 'white' ? 'black' : 'white'));
+  };
 
   // Function to handle the QR code scan success.
   function onScanSuccess(decodedText, decodedResult) {
@@ -47,7 +52,7 @@ export default function Scanner() {
   }, []);
 
   return (
-    <div>
+    <div style={{ backgroundColor: backgroundColor, minHeight: '100vh', transition: 'background-color 0.5s ease' }}>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6">My App</Typography>
@@ -57,6 +62,7 @@ export default function Scanner() {
           <Button color="inherit" href="/chart">
             Chart
           </Button>
+          <Button color="inherit" onClick={toggleBackgroundColor}>Toggle Background</Button> {/* Added button */}
         </Toolbar>
       </AppBar>
       <Container component="main" maxWidth="xs">
