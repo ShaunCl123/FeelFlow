@@ -1,5 +1,5 @@
 'use client';
-import * as React from 'react';
+import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,33 +11,16 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { ThemeProvider } from '@mui/material/styles';
-import { createTheme } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { green } from '@mui/material/colors';
 
-export default function Page() {
-  async function runDBCallAsync(url) {
-    const res = await fetch(url);
-    const data = await res.json();
-
-    if (data.data === 'valid') {
-      console.log('login is valid!');
-    } else {
-      console.log('not valid');
-    }
-  }
-
+export default function LoginPage() {
   const handleSubmit = (event) => {
-    console.log('handling submit');
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    let email = data.get('email');
-    let pass = data.get('pass');
-    console.log('Sent email:' + email);
-    console.log('Sent pass:' + pass);
-    let url = `http://localhost:3000/api/login?email=${email}&pass=${pass}`;
-    console.log(url);
-    runDBCallAsync(url);
+    // Your login logic here...
+
+    // Redirect to the home page
+    window.location.href = '/home';
   };
 
   const theme = createTheme({
@@ -60,7 +43,6 @@ export default function Page() {
             alignItems: 'center',
           }}
         >
-          {/* Header */}
           <Box
             sx={{
               backgroundColor: '#333',
@@ -74,8 +56,6 @@ export default function Page() {
               Welcome to Our Page
             </Typography>
           </Box>
-
-          {/* Form */}
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}></Avatar>
           <Typography component="h1" variant="h5">
             Sign in
@@ -108,37 +88,6 @@ export default function Page() {
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
               Sign In
             </Button>
-
-            {/* Grid Boxes */}
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <Box border={1} p={2}>
-                  <Typography variant="body1">Please Proceed to Login above.</Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Box border={1} p={2}>
-                  <Typography variant="body1">There are also links to the password recovery page and a Register page for new users.</Typography>
-                </Box>
-              </Grid>
-            </Grid>
-
-            {/* Footer */}
-            <Box
-              sx={{
-                backgroundColor: '#333',
-                width: '100%',
-                padding: '20px',
-                textAlign: 'center',
-                marginTop: '20px',
-              }}
-            >
-              <Typography variant="body1" color="primary">
-                © 2024 All rights reserved.
-              </Typography>
-            </Box>
-
-            {/* Links */}
             <Grid container>
               <Grid item xs>
                 <Link href="/forgotpassword" variant="body2">
