@@ -64,7 +64,7 @@ export default function Page() {
     chartRef.current = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Coffee', 'Prime', 'Supplements'],
+        labels: ['Average', 'Moderate', 'Extereme'],
         datasets: [
           {
             label: 'Coffee Intake',
@@ -163,7 +163,7 @@ export default function Page() {
         }}
       >
         <Typography variant="body1" color="primary">
-          © 2024 All rights reserved.
+          Â© 2024 All rights reserved.
         </Typography>
       </Box>
     </div>

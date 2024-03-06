@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,12 +15,28 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { green } from '@mui/material/colors';
 
 export default function LoginPage() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Your login logic here...
+  const [email, setEmail] = useState('');
+  const [pass, setPass] = useState('');
+  const [error, setError] = useState('');
 
-    // Redirect to the home page
-    window.location.href = '/home';
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch(`/?email=${email}&pass=${pass}`);
+
+      if (response.ok) {
+        console.log('Login successful');
+        // Redirect to the home page
+        window.location.href = '/home';
+      } else {
+        console.log('Login failed');
+        setError('Invalid email or password');
+      }
+    } catch (error) {
+      console.error('Error occurred:', error);
+      setError('An error occurred while processing your request.');
+    }
   };
 
   const theme = createTheme({
@@ -70,6 +86,8 @@ export default function LoginPage() {
               name="email"
               autoComplete="email"
               autoFocus
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -77,14 +95,17 @@ export default function LoginPage() {
               fullWidth
               name="pass"
               label="Password"
-              type="pass"
+              type="password"
               id="pass"
               autoComplete="current-password"
+              value={pass}
+              onChange={(e) => setPass(e.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            {error && <Typography variant="body2" color="error">{error}</Typography>}
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
               Sign In
             </Button>

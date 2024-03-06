@@ -1,76 +1,42 @@
-import { MongoClient } from 'mongodb';
+const express = require('express');
+const router = express.Router();
+const mongoose = require('mongoose');
 
-// MongoDB Atlas connection URI
-const uri = 'mongodb+srv://shaun:shaun123@cluster0.hgdl308.mongodb.net/?retryWrites=true&w=majority';
+// Connect to MongoDB
+mongoose.connect('mongodb+srv://shaun:shaun123@cluster0.hgdl308.mongodb.net/caffeine', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+const db = mongoose.connection;
 
-// Database name
-const dbName = 'app';
+// Create a schema for the login collection
+const loginSchema = new mongoose.Schema({
+  user: String,
+  pass: String
+});
+const Login = mongoose.model('Login', loginSchema);
 
-// Function to handle GET requests
-export async function get(req, res) {
-  // Handle GET requests here
-  res.end('GET request handled');
-}
+// Route to handle registration
+router.post('/register', async (req, res) => {
+  const { email, password } = req.body;
 
-// Function to handle POST requests
-export async function post(req, res) {
   try {
-    // Replace the following lines with your actual logic for handling user registration
-    const { email, pass } = req.body;
+    // Create a new document in the login collection
+    const newUser = new Login({
+      user: email,
+      pass: password
+    });
 
-    // Validate input data
-    if (!email || !pass) {
-      return {
-        status: 400,
-        body: { error: 'Invalid data. Both email and password are required.' },
-      };
-    }
+    // Save the new user to the database
+    await newUser.save();
 
-    // Connect to MongoDB Atlas
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-    await client.connect();
-
-    // Access the database
-    const database = client.db(dbName);
-
-    // Access the 'login' collection
-    const collection = database.collection('login');
-
-    // Check if the user already exists
-    const existingUser = await collection.findOne({ email });
-
-    if (existingUser) {
-      return {
-        status: 400,
-        body: { error: 'User with this email already exists.' },
-      };
-    }
-
-    // Create a new user document
-    const newUser = {
-      email,
-      pass, // Note: You should hash the password before storing it in the database
-    };
-
-    // Insert the new user into the 'login' collection
-    await collection.insertOne(newUser);
-
-    // Close the MongoDB connection
-    await client.close();
-
-    // Redirect to the login page upon successful registration
-    return {
-      status: 302,
-      headers: {
-        location: '/login', // Adjust the path as needed
-      },
-      body: {},
-    };
+    // Respond with success message
+    res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
-    console.error('Error in API endpoint:', error);
-    return {
-      status: 500,
-      body: { error: 'Internal Server Error' },
-    };
+    // Respond with error message if registration fails
+    console.error('Error during registration:', error);
+    res.status(500).json({ error: 'Failed to register user' });
   }
-}
+});
+
+module.exports = router;
