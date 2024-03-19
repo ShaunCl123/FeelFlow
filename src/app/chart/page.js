@@ -12,7 +12,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Alert from '@mui/material/Alert';
 import Grid from '@mui/material/Grid';
 import { createTheme } from '@mui/material/styles';
-import { green, yellow, red, blue } from '@mui/material/colors';
+import { green, yellow, red, blue, orange } from '@mui/material/colors';
 import 'chart.js/auto';
 
 export default function Page() {
@@ -36,12 +36,12 @@ export default function Page() {
   const handleCoffeeInputChange = (event) => {
     let cups = parseInt(event.target.value, 10) || 0;
 
-    // Ensure the user cannot exceed counting to 3
-    cups = Math.min(cups, 3);
+    // Ensure the user cannot exceed counting to 5
+    cups = Math.min(cups, 5);
 
     setCoffeeIntake(cups);
 
-    if (cups === 3) {
+    if (cups === 5) {
       alert('You have reached the maximum coffee intake for the day!');
     }
   };
@@ -64,19 +64,23 @@ export default function Page() {
     chartRef.current = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Average', 'Moderate', 'Extereme'],
+        labels: ['Average','Average', 'Moderate', 'Extereme', 'Extereme'],
         datasets: [
           {
             label: 'Coffee Intake',
             data: [
               coffeeIntake,
-              Math.min(coffeeIntake + 1, 3) * scale, // Adjust based on the limit
-              Math.min(coffeeIntake + 2, 3) * scale, // Adjust based on the limit
+              Math.min(coffeeIntake + 1, 5) * scale, // Adjust based on the limit
+              Math.min(coffeeIntake + 2, 5) * scale, // Adjust based on the limit
+              Math.min(coffeeIntake + 3, 5) * scale, // Adjust based on the limit
+              Math.min(coffeeIntake + 4, 5) * scale, // Adjust based on the limit
             ],
             backgroundColor: [
               coffeeIntake === 1 ? green[500] : 'rgba(75, 192, 192, 0.2)',
-              coffeeIntake === 2 ? yellow[500] : 'rgba(75, 192, 192, 0.2)',
-              coffeeIntake === 3 ? red[500] : 'rgba(75, 192, 192, 0.2)',
+              coffeeIntake === 2 ? blue[500] : 'rgba(75, 192, 192, 0.2)',
+              coffeeIntake === 3 ? yellow[500] : 'rgba(75, 192, 192, 0.2)',
+              coffeeIntake === 4 ? orange[500] : 'rgba(75, 192, 192, 0.2)',
+              coffeeIntake === 5 ? red[500] : 'rgba(75, 192, 192, 0.2)',
             ],
             borderColor: 'rgba(75, 192, 192, 1)',
             borderWidth: 1,
@@ -132,19 +136,19 @@ export default function Page() {
                 type="number"
                 onChange={handleCoffeeInputChange}
                 value={coffeeIntake}
-                inputProps={{ max: 3, min: 0 }}
+                inputProps={{ max: 5, min: 0 }}
               />
             </Grid>
             <Grid item xs={12}>
               <LinearProgress
                 variant="determinate"
-                value={(coffeeIntake / 3) * 100}
+                value={(coffeeIntake / 5) * 100}
                 sx={{ width: '80%' }}
                 color={
-                  coffeeIntake === 1 ? 'success' : coffeeIntake === 2 ? 'warning' : 'error'
+                  coffeeIntake === 1 ? 'success' : coffeeIntake === 5 ? 'warning' : 'error'
                 }
               />
-              {coffeeIntake === 3 && (
+              {coffeeIntake === 5 && (
                 <Alert severity="warning" sx={{ marginTop: 2 }}>
                   You have reached the maximum coffee intake for the day!
                 </Alert>

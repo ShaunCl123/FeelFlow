@@ -4,8 +4,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -17,15 +15,15 @@ import { green } from '@mui/material/colors';
 // Define the Register component
 export default function Register() {
   const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const userData = { email, pass };
+    const userData = { email, password };
 
     try {
-      const res = await fetch('api/register', {
+      const res = await fetch('/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -102,13 +100,13 @@ export default function Register() {
               margin="normal"
               required
               fullWidth
-              name="pass"
+              name="password"
               label="Password"
               type="password"
-              id="pass"
+              id="password"
               autoComplete="current-password"
-              value={pass}
-              onChange={(e) => setPass(e.target.value)}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <Button
               type="submit"
@@ -118,20 +116,6 @@ export default function Register() {
             >
               Sign Up
             </Button>
-
-            {/* Grid Boxes */}
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <Box border={1} p={2}>
-                  <Typography variant="body1">Some additional words here.</Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Box border={1} p={2}>
-                  <Typography variant="body1">And more words here.</Typography>
-                </Box>
-              </Grid>
-            </Grid>
 
             {/* Footer */}
             <Box
