@@ -93,12 +93,12 @@ export default function Page() {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <Box border={1} p={2} mt={4}>
-                <Typography variant="body1">Some additional words here.</Typography>
+                <Typography variant="body1">Displayed on this page is a calendar.</Typography>
               </Box>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Box border={1} p={2} mt={4}>
-                <Typography variant="body1">And more words here.</Typography>
+                <Typography variant="body1">Please enter a reminder so that we can remind you.</Typography>
               </Box>
             </Grid>
           </Grid>
