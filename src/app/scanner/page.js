@@ -73,12 +73,13 @@ export default function Scanner() {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Box border={1} p={2} mt={2}>
-            <Typography variant="body1">In order to access the scanner you have to allow access to your camera.</Typography>
+            <Typography variant="body1">
+The scanner component presented here is a part of a React application that utilizes the Html5QrcodeScanner library for QR code scanning functionality. It renders a UI with an AppBar containing navigation buttons, a main content area with a QR code scanner, and a section to display data fetched from an API based on the scanned QR code. Additionally, it includes explanatory Grid Bars and a Footer for user guidance and copyright information.</Typography>
           </Box>
         </Grid>
         <Grid item xs={12} sm={6}>
           <Box border={1} p={2} mt={2}>
-            <Typography variant="body1">The barcodes are read from our database and will display the data on these items.</Typography>
+            <Typography variant="body1">Functionally, the scanner component initiates a QR code scanner upon component mounting, allowing users to scan QR codes with their device's camera. Upon successful scanning, it fetches relevant data from an API based on the decoded text of the QR code. This data is then displayed within the component, providing users with information associated with the scanned QR code. Additionally, it features navigation buttons for easy access to other parts of the application and provides instructional messages through the Grid Bars for guiding users on using the scanner and understanding the displayed data. Finally, the Footer section provides copyright information for the application.</Typography>
           </Box>
         </Grid>
       </Grid>
