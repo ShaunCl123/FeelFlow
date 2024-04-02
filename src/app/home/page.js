@@ -1,6 +1,5 @@
 'use client';
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,6 +10,7 @@ import { green } from '@mui/material/colors';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
 
 // Import DatePicker component and its styles from react-datepicker
 import DatePicker from "react-datepicker";
@@ -53,7 +53,7 @@ export default function Page() {
       </AppBar>
 
       {/* Main content container */}
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="md">
         <CssBaseline />
         <Box
           sx={{
@@ -61,45 +61,58 @@ export default function Page() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            textAlign: 'center',
           }}
         >
-          {/* Avatar and header */}
-          <Avatar>{/* Your Avatar */}</Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h3" mb={4}>
             Welcome to the Health App
           </Typography>
 
-          {/* App description */}
-          <Typography variant="body1" align="center">
-            This app is designed to help you monitor and improve your health. It provides various tools and features, including a scanner for health-related data and charts to track your progress.
-          </Typography>
-
-          {/* DatePicker component with reminder input */}
-          <DatePicker selected={date} onChange={date => setDate(date)} />
-          <input
-            type="text"
-            placeholder="Add a reminder"
-            onChange={handleReminderChange}
-          />
-
-          {/* Display existing reminder for the selected day */}
-          {reminders[date.toDateString()] && (
-            <Typography variant="body2" align="center">
-              Reminder: {reminders[date.toDateString()]}
-            </Typography>
-          )}
-
-          {/* Grid Boxes */}
-          <Grid container spacing={2}>
+          <Grid container spacing={4}>
             <Grid item xs={12} sm={6}>
-              <Box border={1} p={2} mt={4}>
-                <Typography variant="body1">Displayed on this page is a calendar.</Typography>
-              </Box>
+              <Paper elevation={3} sx={{ padding: 2 }}>
+                <Typography variant="h5" mt={2} mb={4}>
+                  About Us
+                </Typography>
+
+                {/* App description */}
+                <Typography variant="body1" align="left">
+                  This app is designed to help you monitor and improve your health. It provides various tools and features, including a scanner for health-related data and charts to track your progress.
+                </Typography>
+              </Paper>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Box border={1} p={2} mt={4}>
-                <Typography variant="body1">Please enter a reminder so that we can remind you.</Typography>
-              </Box>
+              <Paper elevation={3} sx={{ padding: 2 }}>
+                {/* DatePicker component with reminder input */}
+                <DatePicker selected={date} onChange={date => setDate(date)} />
+                <input
+                  type="text"
+                  placeholder="Add a reminder"
+                  onChange={handleReminderChange}
+                  style={{ marginTop: '1rem', width: '100%', padding: '0.5rem' }}
+                />
+
+                {/* Display existing reminder for the selected day */}
+                {reminders[date.toDateString()] && (
+                  <Typography variant="body2" mt={2}>
+                    Reminder: {reminders[date.toDateString()]}
+                  </Typography>
+                )}
+              </Paper>
+            </Grid>
+          </Grid>
+
+          {/* Grid Boxes */}
+          <Grid container spacing={4}>
+            <Grid item xs={12} sm={6}>
+              <Paper elevation={3} sx={{ padding: 2, marginTop: 4 }}>
+                <Typography variant="body1">The calendar displayed in this App is an essential tool for managing health-related activities and appointments. It helps users keep track of important dates effortlessly, making it easy to schedule reminders, track progress, and organize healthcare routines efficiently. With its user-friendly interface, individuals can navigate through dates seamlessly, empowering them to stay proactive and committed to their health goals.</Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Paper elevation={3} sx={{ padding: 2, marginTop: 4 }}>
+                <Typography variant="body1">This feature provides a visual representation of upcoming tasks and events, making it easier for users to plan and prepare. By offering a clear overview of their health-related commitments, the calendar enables individuals to stay on top of their health and make informed decisions about their well-being.</Typography>
+              </Paper>
             </Grid>
           </Grid>
         </Box>
