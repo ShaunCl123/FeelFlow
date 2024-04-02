@@ -28,7 +28,6 @@ export default function Page() {
   });
 
   const [coffeeIntake, setCoffeeIntake] = useState(0);
-  const [backgroundColor, setBackgroundColor] = useState('white'); // State to track background color
 
   // Use a ref to hold the chart instance
   const chartRef = useRef(null);
@@ -44,10 +43,6 @@ export default function Page() {
     if (cups === 5) {
       alert('You have reached the maximum coffee intake for the day!');
     }
-  };
-
-  const toggleBackgroundColor = () => {
-    setBackgroundColor((prevColor) => (prevColor === 'white' ? 'black' : 'white'));
   };
 
   // create and update the chart
@@ -96,7 +91,7 @@ export default function Page() {
   }, [coffeeIntake]);
 
   return (
-    <div style={{ backgroundColor: backgroundColor, minHeight: '100vh', transition: 'background-color 0.5s ease' }}>
+    <div style={{ minHeight: '100vh'}}>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6">My App</Typography>
@@ -106,7 +101,6 @@ export default function Page() {
           <Button color="inherit" href="/scanner">
             Scanner
           </Button>
-          <Button color="inherit" onClick={toggleBackgroundColor}>Toggle Background</Button> {/* Added button */}
         </Toolbar>
       </AppBar>
       <Container component="main" maxWidth="xs">
