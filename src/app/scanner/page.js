@@ -50,6 +50,8 @@ export default function Scanner() {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: '#E4C59E', textAlign: 'center' }}>
       <AppBar position="static" sx={{ backgroundColor: '#AF8260', color: 'white' }}>
         <Toolbar>
+          {/* Logo */}
+          <img src="/logo/logo.jpg" alt="Logo of Something" style={{ marginRight: '55px', height: '55px' }} />
           <Typography variant="h6">My App</Typography>
           <Button color="inherit" href="/home">Home</Button>
           <Button color="inherit" href="/chart">Chart</Button>

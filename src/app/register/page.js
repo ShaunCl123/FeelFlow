@@ -81,10 +81,11 @@ export default function Register() {
         {/* Main Content */}
         <Container component="main" maxWidth="xs">
           <Box component="form" onSubmit={handleSubmit} noValidate>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
-              <Avatar sx={{ bgcolor: 'secondary.main' }} />
-            </Box>
-            <Typography component="h1" variant="h5" sx={{ color: '#000000' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+          {/* Logo */}
+          <img src="/logo/logo.jpg" alt="Logo of Something" style={{ height: '55px' }} />
+          </Box>
+          <Typography component="h1" variant="h5" align="center">
               User Registration
             </Typography>
             <TextField

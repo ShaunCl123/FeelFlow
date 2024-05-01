@@ -72,9 +72,10 @@ export default function LoginPage() {
           }}
         >
           <Container component="main" maxWidth="xs">
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
-              <Avatar sx={{ bgcolor: 'secondary.main' }}></Avatar>
-            </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+          {/* Logo */}
+          <img src="/logo/logo.jpg" alt="Logo of Something" style={{ height: '55px' }} />
+          </Box>
             <Typography component="h1" variant="h5" align="center">
               Sign in
             </Typography>

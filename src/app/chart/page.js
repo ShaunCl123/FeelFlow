@@ -94,6 +94,8 @@ export default function Page() {
     <div style={{ minHeight: '100vh', backgroundColor: '#E4C59E', display: 'flex', flexDirection: 'column' }}>
       <AppBar position="static" sx={{ backgroundColor: '#AF8260' }}> {/* Set background color */}
         <Toolbar>
+          {/* Logo */}
+          <img src="/logo/logo.jpg" alt="Logo of Something" style={{ marginRight: '55px', height: '55px' }} />
           <Typography variant="h6">My App</Typography>
           <Button color="inherit" href="/home">
             Home

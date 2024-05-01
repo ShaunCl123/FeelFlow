@@ -17,7 +17,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 // Import your logo image
-import logoImage from './logo.jpg';
+
 
 // Main component
 export default function Page() {
@@ -56,7 +56,7 @@ export default function Page() {
         <AppBar position="static" sx={{ backgroundColor: '#AF8260' }}> {/* Set background color */}
           <Toolbar>
             {/* Logo */}
-
+            <img src="/logo/logo.jpg" alt="Logo of Something" style={{ marginRight: '55px', height: '55px' }} />
             {/* App title */}
             <Typography variant="h6">My App</Typography>
             <Button color="inherit" href="/scanner">
