@@ -59,7 +59,7 @@ export default function Page() {
     chartRef.current = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Average','Average', 'Moderate', 'Extereme', 'Extereme'],
+        labels: ['Average', 'Average', 'Moderate', 'Extereme', 'Extereme'],
         datasets: [
           {
             label: 'Coffee Intake',
@@ -91,8 +91,8 @@ export default function Page() {
   }, [coffeeIntake]);
 
   return (
-    <div style={{ minHeight: '100vh'}}>
-      <AppBar position="static">
+    <div style={{ minHeight: '100vh', backgroundColor: '#E4C59E', display: 'flex', flexDirection: 'column' }}>
+      <AppBar position="static" sx={{ backgroundColor: '#AF8260' }}> {/* Set background color */}
         <Toolbar>
           <Typography variant="h6">My App</Typography>
           <Button color="inherit" href="/home">
@@ -103,13 +103,14 @@ export default function Page() {
           </Button>
         </Toolbar>
       </AppBar>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" sx={{ padding: '20px', flex: '1' }}> {/* Set background color */}
         <Box
           sx={{
-            marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            justifyContent: 'center',
+            height: '100%',
           }}
         >
           <Grid container spacing={2}>
@@ -153,15 +154,14 @@ export default function Page() {
       </Container>
       <Box
         sx={{
-          backgroundColor: '#333',
+          backgroundColor: '#000000', // Set background color to black
           width: '100%',
           padding: '20px',
           textAlign: 'center',
-          marginTop: '20px',
         }}
       >
         <Typography variant="body1" color="primary">
-          Â© 2024 All rights reserved.
+          © 2024 All rights reserved.
         </Typography>
       </Box>
     </div>

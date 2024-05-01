@@ -47,39 +47,38 @@ export default function Scanner() {
   }, []);
 
   return (
-    <div style={{ minHeight: '100vh' }}>
-      <AppBar position="static">
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: '#E4C59E', textAlign: 'center' }}>
+      <AppBar position="static" sx={{ backgroundColor: '#AF8260', color: 'white' }}>
         <Toolbar>
           <Typography variant="h6">My App</Typography>
-          <Button color="inherit" href="/home">
-            Home
-          </Button>
-          <Button color="inherit" href="/chart">
-            Chart
-          </Button>
+          <Button color="inherit" href="/home">Home</Button>
+          <Button color="inherit" href="/chart">Chart</Button>
         </Toolbar>
       </AppBar>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" style={{ textAlign: 'center', margin: 'auto' }}>
         <div id="reader" style={{ width: '100%' }}></div>
         {/* Display or handle dbData as needed */}
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" gutterBottom style={{ textAlign: 'center', margin: 'auto' }}>
           Content:
         </Typography>
-        <Box border={1} p={2} mt={2}>
+        <Box border={0} p={2} mt={2} style={{ textAlign: 'center', margin: 'auto' }}>
           <Typography variant="body1">{JSON.stringify(dbData)}</Typography>
         </Box>
       </Container>
       {/* Grid Bars */}
-      <Grid container spacing={2}>
+      <Grid container spacing={2} style={{ textAlign: 'center', margin: 'auto' }}>
         <Grid item xs={12} sm={6}>
-          <Box border={1} p={2} mt={2}>
-            <Typography variant="body1">
-The scanner component presented here is a part of a React application that utilizes the Html5QrcodeScanner library for QR code scanning functionality. It renders a UI with an AppBar containing navigation buttons, a main content area with a QR code scanner, and a section to display data fetched from an API based on the scanned QR code. Additionally, it includes explanatory Grid Bars and a Footer for user guidance and copyright information.</Typography>
+          <Box p={2} mt={2} sx={{ backgroundColor: '#AF8260', height: '100%' }}>
+            <Typography variant="body1" sx={{ color: 'black' }}>
+              The scanner component presented here is a part of a React application that utilizes the Html5QrcodeScanner library for QR code scanning functionality. It renders a UI with an AppBar containing navigation buttons, a main content area with a QR code scanner, and a section to display data fetched from an API based on the scanned QR code. Additionally, it includes explanatory Grid Bars and a Footer for user guidance and copyright information.
+            </Typography>
           </Box>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Box border={1} p={2} mt={2}>
-            <Typography variant="body1">Functionally, the scanner component initiates a QR code scanner upon component mounting, allowing users to scan QR codes with their device's camera. Upon successful scanning, it fetches relevant data from an API based on the decoded text of the QR code. This data is then displayed within the component, providing users with information associated with the scanned QR code. Additionally, it features navigation buttons for easy access to other parts of the application and provides instructional messages through the Grid Bars for guiding users on using the scanner and understanding the displayed data. Finally, the Footer section provides copyright information for the application.</Typography>
+          <Box p={2} mt={2} sx={{ backgroundColor: '#AF8260', height: '100%' }}>
+            <Typography variant="body1" sx={{ color: 'black' }}>
+              Functionally, the scanner component initiates a QR code scanner upon component mounting, allowing users to scan QR codes with their device's camera. Upon successful scanning, it fetches relevant data from an API based on the decoded text of the QR code. This data is then displayed within the component, providing users with information associated with the scanned QR code. Additionally, it features navigation buttons for easy access to other parts of the application and provides instructional messages through the Grid Bars for guiding users on using the scanner and understanding the displayed data. Finally, the Footer section provides copyright information for the application.
+            </Typography>
           </Box>
         </Grid>
       </Grid>
@@ -90,12 +89,10 @@ The scanner component presented here is a part of a React application that utili
           width: '100%',
           padding: '20px',
           textAlign: 'center',
-          marginTop: '20px',
+          marginTop: 'auto',
         }}
       >
-        <Typography variant="body1" color="primary">
-          © 2024 All rights reserved.
-        </Typography>
+        <Typography variant="body1" color="primary">© 2024 All rights reserved.</Typography>
       </Box>
     </div>
   );
