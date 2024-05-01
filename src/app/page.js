@@ -60,7 +60,7 @@ export default function LoginPage() {
           }}
         >
           <Typography variant="h4" color="black">
-            Welcome to Our Page
+            Welcome to Caffeine Companion
           </Typography>
         </Box>
         <Box

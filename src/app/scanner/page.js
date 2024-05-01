@@ -52,7 +52,7 @@ export default function Scanner() {
         <Toolbar>
           {/* Logo */}
           <img src="/logo/logo.jpg" alt="Logo of Something" style={{ marginRight: '55px', height: '55px' }} />
-          <Typography variant="h6">My App</Typography>
+          <Typography variant="h6">Scanner</Typography>
           <Button color="inherit" href="/home">Home</Button>
           <Button color="inherit" href="/chart">Chart</Button>
         </Toolbar>

@@ -59,7 +59,7 @@ export default function Page() {
     chartRef.current = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Average', 'Average', 'Moderate', 'Extereme', 'Extereme'],
+        labels: ['Average', 'Average', 'Moderate', 'Extereme', 'Maximum'],
         datasets: [
           {
             label: 'Coffee Intake',
@@ -96,7 +96,7 @@ export default function Page() {
         <Toolbar>
           {/* Logo */}
           <img src="/logo/logo.jpg" alt="Logo of Something" style={{ marginRight: '55px', height: '55px' }} />
-          <Typography variant="h6">My App</Typography>
+          <Typography variant="h6">Chart</Typography>
           <Button color="inherit" href="/home">
             Home
           </Button>
@@ -118,7 +118,7 @@ export default function Page() {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant="h4" color="primary">
-                Coffee Consumption
+                Caffeine Consumption
               </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -154,6 +154,11 @@ export default function Page() {
           </Grid>
         </Box>
       </Container>
+            {/* Grid Bars */}
+            <Grid container spacing={2} style={{ textAlign: 'center', margin: 'auto' }}>
+        <Grid item xs={12} sm={6}>
+        </Grid>
+      </Grid>
       <Box
         sx={{
           backgroundColor: '#000000', // Set background color to black

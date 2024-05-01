@@ -86,7 +86,7 @@ export default function Register() {
           <img src="/logo/logo.jpg" alt="Logo of Something" style={{ height: '55px' }} />
           </Box>
           <Typography component="h1" variant="h5" align="center">
-              User Registration
+              Sign Up
             </Typography>
             <TextField
               margin="normal"

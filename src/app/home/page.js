@@ -58,7 +58,7 @@ export default function Page() {
             {/* Logo */}
             <img src="/logo/logo.jpg" alt="Logo of Something" style={{ marginRight: '55px', height: '55px' }} />
             {/* App title */}
-            <Typography variant="h6">My App</Typography>
+            <Typography variant="h6">Homepage</Typography>
             <Button color="inherit" href="/scanner">
               Scanner
             </Button>
@@ -79,16 +79,16 @@ export default function Page() {
             }}
           >
             {/* Custom header */}
-            <h1 style={{ color: 'black', fontFamily: 'Cascadia Mono, sans-serif', fontSize: '3em' }}> <br />Homepage</h1>
+            <h1 style={{ color: 'black', fontFamily: 'Cascadia Mono, sans-serif', fontSize: '3em' }}> <br />Caffeine Companion</h1>
 
             {/* About Us */}
             <Paper elevation={3} sx={{ padding: 2, backgroundColor: '#AF8260', marginTop: '20px' }}>
               <Typography variant="h5" mt={2} mb={4}>
-                About Us
+                Welcome to the Homepage!
               </Typography>
               {/* App description */}
               <Typography variant="body1" align="left">
-                This app is designed to help you monitor and improve your health. It provides various tools and features, including a scanner for health-related data and charts to track your progress.
+                This app is designed to help you monitor and improve your health. It provides various tools and features, including a scanner for health-related data and charts to track your progress.  Hope you enjoy using it!
               </Typography>
             </Paper>
 
