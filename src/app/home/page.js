@@ -12,9 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 
-// Main component
 export default function Page() {
-  // Create a theme
   const theme = createTheme({
     palette: {
       secondary: {
@@ -23,19 +21,17 @@ export default function Page() {
     },
   });
 
-  // State for the chosen emotion, fetched tracks, selected track, error, and number of songs to fetch
   const [emotion, setEmotion] = React.useState('');
   const [tracks, setTracks] = React.useState([]);
   const [error, setError] = React.useState(null);
-  const [audio, setAudio] = React.useState(null); // State for audio object
-  const [selectedFullTrack, setSelectedFullTrack] = React.useState(''); // State for the selected full track
-  const [songCount, setSongCount] = React.useState(5); // State for number of songs to fetch
+  const [audio, setAudio] = React.useState(null);
+  const [selectedFullTrack, setSelectedFullTrack] = React.useState('');
+  const [songCount, setSongCount] = React.useState(5);
 
-  // Function to fetch playlist tracks based on emotion
   const fetchPlaylistTracks = async () => {
     if (!emotion) {
-      setError("Please enter an emotion.");
-      return; // Exit if no emotion is entered
+      setError("Please select an emotion.");
+      return;
     }
     try {
       const response = await fetch(`/api/fetch-playlist-tracks?emotion=${emotion}`);
@@ -43,14 +39,13 @@ export default function Page() {
         throw new Error(`Error: ${response.status} - ${response.statusText}`);
       }
       const data = await response.json();
-      
-      // Shuffle the tracks and select the specified number of random songs
+
       const shuffledTracks = data.items.sort(() => 0.5 - Math.random());
       const selectedTracks = shuffledTracks.slice(0, songCount).map(item => ({
         name: item.track.name,
         artists: item.track.artists.map(artist => artist.name).join(", "),
-        previewUrl: item.track.preview_url, // Add the preview URL for the track
-        fullUrl: item.track.external_urls.spotify // Add the full track URL
+        previewUrl: item.track.preview_url,
+        fullUrl: item.track.external_urls.spotify
       }));
 
       setTracks(selectedTracks);
@@ -61,17 +56,15 @@ export default function Page() {
     }
   };
 
-  // Function to play the selected track
   const playTrack = (index) => {
     if (tracks[index] && tracks[index].previewUrl) {
       if (audio) {
-        audio.pause(); // Stop the current audio if playing
+        audio.pause();
       }
       const newAudio = new Audio(tracks[index].previewUrl);
       newAudio.play();
-      setAudio(newAudio); // Store the new audio object
+      setAudio(newAudio);
 
-      // Play the next track when the current track ends
       newAudio.onended = () => {
         if (index + 1 < tracks.length) {
           playTrack(index + 1);
@@ -80,20 +73,18 @@ export default function Page() {
     }
   };
 
-  // Function to stop the current track
   const stopTrack = () => {
     if (audio) {
       audio.pause();
-      audio.currentTime = 0; // Reset to start
-      setAudio(null); // Clear audio state
+      audio.currentTime = 0;
+      setAudio(null);
     }
   };
 
-  // Function to play the full track from the dropdown selection
   const playFullTrack = () => {
     const track = tracks.find(t => t.name === selectedFullTrack);
     if (track && track.fullUrl) {
-      window.open(track.fullUrl, '_blank'); // Open the full track in a new tab
+      window.open(track.fullUrl, '_blank');
     }
   };
 
@@ -103,11 +94,14 @@ export default function Page() {
       <Box
         sx={{
           minHeight: '100vh',
-          backgroundColor: '#1DB954', // Spotify Green
-          padding: '20px',
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundImage: 'url(/images/main.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
         }}
       >
-        <Container component="main" maxWidth="md">
+        <Container component="main" maxWidth="md" sx={{ flexGrow: 1, padding: '20px' }}>
           <Box
             sx={{
               display: 'flex',
@@ -127,13 +121,20 @@ export default function Page() {
               <Typography variant="body1" align="left" color="white">
                 Choose an emotion and fetch a playlist to match your mood!
               </Typography>
-              <input
-                type="text"
-                placeholder="Enter emotion (e.g., Happy)"
-                value={emotion}
-                onChange={(e) => setEmotion(e.target.value)}
-                style={{ marginTop: '1rem', width: '100%', padding: '0.5rem' }}
-              />
+
+              <FormControl fullWidth sx={{ marginTop: '1rem', marginBottom: '1rem' }}>
+                <Select
+                  value={emotion}
+                  onChange={(e) => setEmotion(e.target.value)}
+                  displayEmpty
+                  sx={{ backgroundColor: '#FFFFFF', width: '100%' }}
+                >
+                  <MenuItem value="" disabled>Select emotion (e.g., Happy 😊)</MenuItem>
+                  <MenuItem value="Happy">Happy 😊</MenuItem>
+                  <MenuItem value="Sad">Sad 😢</MenuItem>
+                  <MenuItem value="Angry">Angry 😡</MenuItem>
+                </Select>
+              </FormControl>
 
               <Typography variant="body1" align="left" color="white" sx={{ marginTop: '1rem', marginBottom: '0.5rem' }}>
                 Number of Songs
@@ -143,7 +144,7 @@ export default function Page() {
                 <Select
                   value={songCount}
                   onChange={(e) => setSongCount(e.target.value)}
-                  sx={{ backgroundColor: '#FFFFFF', width: '60%' }} // Adjusted width for smaller dropdown
+                  sx={{ backgroundColor: '#FFFFFF', width: '60%' }}
                 >
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(count => (
                     <MenuItem key={count} value={count}>{count}</MenuItem>
@@ -171,7 +172,7 @@ export default function Page() {
                     <Button
                       variant="contained"
                       color="secondary"
-                      onClick={() => playTrack(index)} // Call playTrack with the correct index
+                      onClick={() => playTrack(index)}
                       sx={{ marginLeft: '10px' }}
                     >
                       Play
@@ -220,7 +221,7 @@ export default function Page() {
             width: '100%',
             padding: '20px',
             textAlign: 'center',
-            marginTop: '20px',
+            marginTop: 'auto',
           }}
         >
           <Typography variant="body1" color="primary">

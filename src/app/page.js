@@ -1,17 +1,13 @@
 'use client';
 import React from 'react';
-import { Box, Button, CssBaseline, Typography, Container } from '@mui/material';
+import { Box, Button, CssBaseline, Typography, Container, Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { green } from '@mui/material/colors';
 
 export default function LoginPage() {
   const theme = createTheme({
     palette: {
       primary: {
         main: '#000000', // Set primary color to black
-      },
-      background: {
-        default: '#1DB954', // Set background color to green
       },
     },
   });
@@ -39,32 +35,48 @@ export default function LoginPage() {
         </Box>
         <Box
           sx={{
-            marginTop: 8,
+            flexGrow: 1,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            flexGrow: 1, // Allow this box to grow and push footer down
+            justifyContent: 'center',
+            backgroundImage: 'url(/images/start.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            width: '100%',
+            padding: '20px',
           }}
         >
           <Container component="main" maxWidth="xs">
-            <Typography variant="body1" align="center" color="white" sx={{ mb: 2 }}>
-              FeelFlow is your go-to platform for discovering music that matches your mood. 
-              Explore playlists created just for you, and find the perfect soundtrack for 
-              your day. Let the music flow!
-            </Typography>
-            <Typography component="h1" variant="h5" align="center" color="white">
-              Explore Your Music
-            </Typography>
-            <Box component="div" sx={{ mt: 1, textAlign: 'center' }}>
-              <Button 
-                fullWidth 
-                variant="contained" 
-                sx={{ mt: 3, mb: 2 }} 
-                onClick={handleRedirect}
-              >
-                Go to Home
-              </Button>
-            </Box>
+            <Paper 
+              elevation={3} 
+              sx={{ 
+                padding: '20px', 
+                backgroundColor: '#000000', 
+                textAlign: 'center', 
+                color: 'white', 
+                opacity: 0.9 
+              }}
+            >
+              <Typography variant="body1" align="center" sx={{ mb: 2 }}>
+                FeelFlow is your go-to platform for discovering music that matches your mood. 
+                Explore playlists created just for you, and find the perfect soundtrack for 
+                your day. Let the music flow!
+              </Typography>
+              <Typography component="h1" variant="h5" align="center">
+                Explore Your Music
+              </Typography>
+              <Box component="div" sx={{ mt: 1 }}>
+                <Button 
+                  fullWidth 
+                  variant="contained" 
+                  sx={{ mt: 3, mb: 2 }} 
+                  onClick={handleRedirect}
+                >
+                  Go to Home
+                </Button>
+              </Box>
+            </Paper>
           </Container>
         </Box>
         <Box
