@@ -11,7 +11,6 @@ import Paper from '@mui/material/Paper';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 
 // Main component
 export default function Page() {
@@ -27,7 +26,6 @@ export default function Page() {
   // State for the chosen emotion, fetched tracks, selected track, error, and number of songs to fetch
   const [emotion, setEmotion] = React.useState('');
   const [tracks, setTracks] = React.useState([]);
-  const [currentTrackIndex, setCurrentTrackIndex] = React.useState(-1); // Initialize with -1 (no track selected)
   const [error, setError] = React.useState(null);
   const [audio, setAudio] = React.useState(null); // State for audio object
   const [selectedFullTrack, setSelectedFullTrack] = React.useState(''); // State for the selected full track
@@ -56,12 +54,10 @@ export default function Page() {
       }));
 
       setTracks(selectedTracks);
-      setCurrentTrackIndex(0); // Start from the first track if tracks are fetched
       setError(null);
     } catch (error) {
       setError(`Error fetching tracks: ${error.message}`);
       setTracks([]);
-      setCurrentTrackIndex(-1); // Reset current track index on error
     }
   };
 
@@ -74,7 +70,6 @@ export default function Page() {
       const newAudio = new Audio(tracks[index].previewUrl);
       newAudio.play();
       setAudio(newAudio); // Store the new audio object
-      setCurrentTrackIndex(index); // Update the current track index
 
       // Play the next track when the current track ends
       newAudio.onended = () => {
@@ -125,7 +120,7 @@ export default function Page() {
               FeelFlow
             </h1>
 
-            <Paper elevation={3} sx={{ padding: 2, backgroundColor: '#191414', marginTop: '20px' }}>
+            <Paper elevation={3} sx={{ padding: 2, backgroundColor: '#000000', marginTop: '20px' }}>
               <Typography variant="h5" mt={2} mb={4} color="white">
                 Welcome to the Playlist Fetcher!
               </Typography>
@@ -140,13 +135,15 @@ export default function Page() {
                 style={{ marginTop: '1rem', width: '100%', padding: '0.5rem' }}
               />
 
-              <FormControl fullWidth sx={{ marginTop: '1rem' }}>
-                <InputLabel id="song-count-label" sx={{ color: 'white' }}>Number of Songs</InputLabel>
+              <Typography variant="body1" align="left" color="white" sx={{ marginTop: '1rem', marginBottom: '0.5rem' }}>
+                Number of Songs
+              </Typography>
+
+              <FormControl fullWidth sx={{ marginBottom: '1rem' }}>
                 <Select
-                  labelId="song-count-label"
                   value={songCount}
                   onChange={(e) => setSongCount(e.target.value)}
-                  sx={{ backgroundColor: '#FFFFFF' }}
+                  sx={{ backgroundColor: '#FFFFFF', width: '60%' }} // Adjusted width for smaller dropdown
                 >
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(count => (
                     <MenuItem key={count} value={count}>{count}</MenuItem>
@@ -165,8 +162,8 @@ export default function Page() {
               </Typography>
             )}
 
-            <Paper elevation={3} sx={{ padding: 2, backgroundColor: '#191414', marginTop: '20px' }}>
-              <Typography variant="h6" color="white">Fetched Tracks:</Typography>
+            <Paper elevation={3} sx={{ padding: 2, backgroundColor: '#000000', marginTop: '20px' }}>
+              <Typography variant="h6" color="white">Fetched Tracks: {tracks.length} Songs</Typography>
               <ul style={{ listStyleType: 'none', padding: 0 }}>
                 {tracks.map((track, index) => (
                   <li key={index} style={{ marginBottom: '10px', color: 'white' }}>
@@ -174,7 +171,7 @@ export default function Page() {
                     <Button
                       variant="contained"
                       color="secondary"
-                      onClick={() => playTrack(index)}
+                      onClick={() => playTrack(index)} // Call playTrack with the correct index
                       sx={{ marginLeft: '10px' }}
                     >
                       Play
