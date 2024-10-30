@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 const TOKEN_URL = "https://accounts.spotify.com/api/token";
-const PLAYLIST_ID = "37i9dQZF1EIgG2NEOhqsD7"; // Replace with your playlist ID
+const PLAYLIST_ID = "6oAh8LZ42ITzHqZRO89J63"; // Replace with your playlist ID
 
 let accessToken = '';
 let tokenExpiration = 0;
