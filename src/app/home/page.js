@@ -75,6 +75,13 @@ export default function Page() {
       newAudio.play();
       setAudio(newAudio); // Store the new audio object
       setCurrentTrackIndex(index); // Update the current track index
+
+      // Play the next track when the current track ends
+      newAudio.onended = () => {
+        if (index + 1 < tracks.length) {
+          playTrack(index + 1);
+        }
+      };
     }
   };
 
@@ -115,7 +122,7 @@ export default function Page() {
             }}
           >
             <h1 style={{ color: 'white', fontFamily: 'Cascadia Mono, sans-serif', fontSize: '3em' }}>
-              Caffeine Companion
+              FeelFlow
             </h1>
 
             <Paper elevation={3} sx={{ padding: 2, backgroundColor: '#191414', marginTop: '20px' }}>
