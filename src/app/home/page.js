@@ -12,6 +12,22 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 
+
+const emotionLinks = {
+  Happy: [
+    { text: "Visit a Holiday Planning Site.", url: "https://www.tuiholidays.ie/f/holidays" },
+    { text: "Find Fun Activities to fulfill your day. ", url: "https://www.getirelandactive.ie" },
+  ],
+  Sad: [
+    { text: "Mental Health Support - HSE", url: "https://www2.hse.ie/mental-health/" },
+    { text: "Helpline Services - Pieta House", url: "https://www.pieta.ie" },
+  ],
+  Angry: [
+    { text: "Stress Relief and Management", url: "https://www2.hse.ie/mental-health/issues/stress/" },
+    { text: "Find Local Therapy Centers", url: "https://www.betterhelp.com" },
+  ],
+};
+
 export default function Page() {
   const theme = createTheme({
     palette: {
@@ -212,6 +228,25 @@ export default function Page() {
                 </Button>
               </Box>
             </Paper>
+
+            {/* Helpful Links Section */}
+            {emotion && (
+              <Paper elevation={3} sx={{ padding: 2, backgroundColor: '#000000', marginTop: '20px' }}>
+                <Typography variant="body1" color="white" sx={{ marginTop: '1rem' }}>
+                  Based on your mood, here are some helpful resources you might find useful:
+                </Typography>
+                <Typography variant="h6" color="white">Helpful Links</Typography>
+                <ul style={{ listStyleType: 'none', padding: 0, color: 'white' }}>
+                  {emotionLinks[emotion].map((link, index) => (
+                    <li key={index} style={{ marginBottom: '10px' }}>
+                      <a href={link.url} target="_blank" rel="noopener noreferrer" style={{ color: 'cyan' }}>
+                        {link.text}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </Paper>
+            )}
           </Box>
         </Container>
 
