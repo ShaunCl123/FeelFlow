@@ -12,19 +12,14 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 
-
 const emotionLinks = {
   Happy: [
     { text: "Visit a Holiday Planning Site.", url: "https://www.tuiholidays.ie/f/holidays" },
-    { text: "Find Fun Activities to fulfill your day. ", url: "https://www.getirelandactive.ie" },
+    { text: "Find Fun Activities to fulfill your day.", url: "https://www.getirelandactive.ie" },
   ],
   Sad: [
     { text: "Mental Health Support - HSE", url: "https://www2.hse.ie/mental-health/" },
     { text: "Helpline Services - Pieta House", url: "https://www.pieta.ie" },
-  ],
-  Angry: [
-    { text: "Stress Relief and Management", url: "https://www2.hse.ie/mental-health/issues/stress/" },
-    { text: "Find Local Therapy Centers", url: "https://www.betterhelp.com" },
   ],
 };
 
@@ -115,9 +110,35 @@ export default function Page() {
           backgroundImage: 'url(/images/main.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
+          position: 'relative',
         }}
       >
-        <Container component="main" maxWidth="md" sx={{ flexGrow: 1, padding: '20px' }}>
+        {/* Overlay Tint Box */}
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor:
+              emotion === 'Happy' ? 'rgba(255, 223, 0, 0.3)' :
+              emotion === 'Sad' ? 'rgba(0, 0, 255, 0.2)' : 'transparent',
+            zIndex: 1,
+          }}
+        />
+
+        {/* Content Box */}
+        <Container
+          component="main"
+          maxWidth="md"
+          sx={{
+            flexGrow: 1,
+            padding: '20px',
+            position: 'relative',
+            zIndex: 2, // Ensure content is above the tint overlay
+          }}
+        >
           <Box
             sx={{
               display: 'flex',
@@ -148,7 +169,6 @@ export default function Page() {
                   <MenuItem value="" disabled>Select emotion (e.g., Happy 😊)</MenuItem>
                   <MenuItem value="Happy">Happy 😊</MenuItem>
                   <MenuItem value="Sad">Sad 😢</MenuItem>
-                  <MenuItem value="Angry">Angry 😡</MenuItem>
                 </Select>
               </FormControl>
 

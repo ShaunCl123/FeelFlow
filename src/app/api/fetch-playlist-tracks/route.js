@@ -4,7 +4,11 @@ import fetch from 'node-fetch';
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 const TOKEN_URL = "https://accounts.spotify.com/api/token";
-const PLAYLIST_ID = "6oAh8LZ42ITzHqZRO89J63"; // Replace with your playlist ID
+
+const PLAYLISTS = {
+  Happy: "6oAh8LZ42ITzHqZRO89J63",
+  Sad: "3Xnxy5AXcfxRFyfe5572oA",
+};
 
 let accessToken = '';
 let tokenExpiration = 0;
@@ -41,9 +45,15 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const emotion = searchParams.get('emotion');
 
+  // Select the appropriate playlist ID based on the emotion
+  const playlistId = PLAYLISTS[emotion];
+  if (!playlistId) {
+    return NextResponse.json({ error: 'Invalid emotion or playlist not found' }, { status: 400 });
+  }
+
   try {
     const token = await getAccessToken();
-    const response = await fetch(`https://api.spotify.com/v1/playlists/${PLAYLIST_ID}/tracks`, {
+    const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
