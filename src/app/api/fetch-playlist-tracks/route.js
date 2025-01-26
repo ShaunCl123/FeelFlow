@@ -8,6 +8,7 @@ const TOKEN_URL = "https://accounts.spotify.com/api/token";
 const PLAYLISTS = {
   Happy: "6oAh8LZ42ITzHqZRO89J63",
   Sad: "3Xnxy5AXcfxRFyfe5572oA",
+  Active: "1dCv7kEktSwCZUbZ9yCTrH",
 };
 
 let accessToken = '';

@@ -21,6 +21,10 @@ const emotionLinks = {
     { text: "Mental Health Support - HSE", url: "https://www2.hse.ie/mental-health/" },
     { text: "Helpline Services - Pieta House", url: "https://www.pieta.ie" },
   ],
+  Active: [
+    { text: "Visit an Active Lifestyle Site", url: "https://www.getactive.ie" },
+    { text: "Join a Fitness Program", url: "https://www.fitnessblender.com" },
+  ],
 };
 
 export default function Page() {
@@ -123,7 +127,9 @@ export default function Page() {
             bottom: 0,
             backgroundColor:
               emotion === 'Happy' ? 'rgba(255, 223, 0, 0.3)' :
-              emotion === 'Sad' ? 'rgba(0, 0, 255, 0.2)' : 'transparent',
+              emotion === 'Sad' ? 'rgba(0, 0, 255, 0.2)' :
+              emotion === 'Active' ? 'rgba(0, 255, 0, 0.3)' : 'transparent',
+            
             zIndex: 1,
           }}
         />
@@ -169,6 +175,7 @@ export default function Page() {
                   <MenuItem value="" disabled>Select emotion (e.g., Happy 😊)</MenuItem>
                   <MenuItem value="Happy">Happy 😊</MenuItem>
                   <MenuItem value="Sad">Sad 😢</MenuItem>
+                  <MenuItem value="Active">Active 💪</MenuItem>
                 </Select>
               </FormControl>
 
