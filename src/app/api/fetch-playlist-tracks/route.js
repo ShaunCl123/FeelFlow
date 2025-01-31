@@ -9,6 +9,7 @@ const PLAYLISTS = {
   Happy: "6oAh8LZ42ITzHqZRO89J63",
   Sad: "3Xnxy5AXcfxRFyfe5572oA",
   Active: "1dCv7kEktSwCZUbZ9yCTrH",
+  Focused: "4Bw0zY8HzFPRypxTiKmSqn",
 };
 
 let accessToken = '';

@@ -25,6 +25,11 @@ const emotionLinks = {
     { text: "Visit an Active Lifestyle Site", url: "https://www.getactive.ie" },
     { text: "Join a Fitness Program", url: "https://www.fitnessblender.com" },
   ],
+  Focused: [
+    { text: "Study Tips - Study Smarter", url: "https://www.studysmarter.co.uk" },
+    { text: "Pomodoro Timer - Stay Focused", url: "https://pomofocus.io" },
+  ],
+  
 };
 
 export default function Page() {
@@ -128,7 +133,9 @@ export default function Page() {
             backgroundColor:
               emotion === 'Happy' ? 'rgba(255, 223, 0, 0.3)' :
               emotion === 'Sad' ? 'rgba(0, 0, 255, 0.2)' :
-              emotion === 'Active' ? 'rgba(0, 255, 0, 0.3)' : 'transparent',
+              emotion === 'Active' ? 'rgba(0, 255, 0, 0.3)' :
+              emotion === 'Focused' ? 'rgba(128, 0, 128, 0.3)' : 'transparent',
+
             
             zIndex: 1,
           }}
@@ -176,6 +183,8 @@ export default function Page() {
                   <MenuItem value="Happy">Happy 😊</MenuItem>
                   <MenuItem value="Sad">Sad 😢</MenuItem>
                   <MenuItem value="Active">Active 💪</MenuItem>
+                  <MenuItem value="Focused">Focused 🎯</MenuItem>
+
                 </Select>
               </FormControl>
 
