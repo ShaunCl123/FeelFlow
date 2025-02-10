@@ -20,6 +20,7 @@ const emotionLinks = {
   Sad: [
     { text: "Mental Health Support - HSE", url: "https://www2.hse.ie/mental-health/" },
     { text: "Helpline Services - Pieta House", url: "https://www.pieta.ie" },
+    { text: "Call if any help is required", url: "/call" },
   ],
   Active: [
     { text: "Visit an Active Lifestyle Site", url: "https://www.getactive.ie" },
