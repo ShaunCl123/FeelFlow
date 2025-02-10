@@ -30,7 +30,6 @@ const emotionLinks = {
     { text: "Study Tips - Study Smarter", url: "https://www.studysmarter.co.uk" },
     { text: "Pomodoro Timer - Stay Focused", url: "https://pomofocus.io" },
   ],
-  
 };
 
 export default function Page() {
@@ -48,6 +47,14 @@ export default function Page() {
   const [audio, setAudio] = React.useState(null);
   const [selectedFullTrack, setSelectedFullTrack] = React.useState('');
   const [songCount, setSongCount] = React.useState(5);
+  const [manualBgColor, setManualBgColor] = React.useState('transparent'); // Track background color
+
+  const emotionBgColors = {
+    Happy: 'rgba(255, 223, 0, 0.3)',  // Yellow
+    Sad: 'rgba(0, 0, 255, 0.2)',     // Blue
+    Active: 'rgba(0, 255, 0, 0.3)',  // Green
+    Focused: 'rgba(128, 0, 128, 0.3)', // Purple
+  };
 
   const fetchPlaylistTracks = async () => {
     if (!emotion) {
@@ -71,6 +78,9 @@ export default function Page() {
 
       setTracks(selectedTracks);
       setError(null);
+
+      // Change background color based on selected emotion
+      setManualBgColor(emotionBgColors[emotion]);
     } catch (error) {
       setError(`Error fetching tracks: ${error.message}`);
       setTracks([]);
@@ -109,12 +119,20 @@ export default function Page() {
     }
   };
 
+  // Function to cycle through predefined background colors when button is clicked
+  const changeBgColor = () => {
+    const colors = ['rgba(255, 223, 0, 0.3)', 'rgba(0, 0, 255, 0.2)', 'rgba(0, 255, 0, 0.3)', 'rgba(128, 0, 128, 0.3)', 'transparent'];
+    const currentIndex = colors.indexOf(manualBgColor);
+    const nextIndex = (currentIndex + 1) % colors.length;
+    setManualBgColor(colors[nextIndex]);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box
         sx={{
-          minHeight: '100vh',
+          minHeight: '100vh', // Ensure it stretches the full height of the viewport
           display: 'flex',
           flexDirection: 'column',
           backgroundImage: 'url(/images/main.png)',
@@ -131,14 +149,8 @@ export default function Page() {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor:
-              emotion === 'Happy' ? 'rgba(255, 223, 0, 0.3)' :
-              emotion === 'Sad' ? 'rgba(0, 0, 255, 0.2)' :
-              emotion === 'Active' ? 'rgba(0, 255, 0, 0.3)' :
-              emotion === 'Focused' ? 'rgba(128, 0, 128, 0.3)' : 'transparent',
-
-            
-            zIndex: 1,
+            backgroundColor: manualBgColor,  // Use the dynamic background color
+            zIndex: 1,  // Lower zIndex to ensure it stays under the button
           }}
         />
 
@@ -165,6 +177,7 @@ export default function Page() {
               FeelFlow
             </h1>
 
+            {/* Form and Playlists */}
             <Paper elevation={3} sx={{ padding: 2, backgroundColor: '#000000', marginTop: '20px' }}>
               <Typography variant="h5" mt={2} mb={4} color="white">
                 Welcome to the Playlist Fetcher!
@@ -185,7 +198,6 @@ export default function Page() {
                   <MenuItem value="Sad">Sad 😢</MenuItem>
                   <MenuItem value="Active">Active 💪</MenuItem>
                   <MenuItem value="Focused">Focused 🎯</MenuItem>
-
                 </Select>
               </FormControl>
 
@@ -216,6 +228,7 @@ export default function Page() {
               </Typography>
             )}
 
+            {/* Track List and Controls */}
             <Paper elevation={3} sx={{ padding: 2, backgroundColor: '#000000', marginTop: '20px' }}>
               <Typography variant="h6" color="white">Fetched Tracks: {tracks.length} Songs</Typography>
               <ul style={{ listStyleType: 'none', padding: 0 }}>
@@ -287,6 +300,7 @@ export default function Page() {
           </Box>
         </Container>
 
+        {/* Background Color Change Button */}
         <Box
           sx={{
             backgroundColor: '#000000',
@@ -294,9 +308,19 @@ export default function Page() {
             padding: '20px',
             textAlign: 'center',
             marginTop: 'auto',
+            zIndex: 3, // Ensure the button is clickable by placing it above the overlay
+            position: 'relative', // Set it to relative to control zIndex properly
           }}
         >
-          <Typography variant="body1" color="primary">
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{ marginTop: '20px' }}
+            onClick={changeBgColor}
+          >
+            Change Background Color
+          </Button>
+          <Typography variant="body1" color="primary" sx={{ marginTop: '10px' }}>
             © 2024 All rights reserved.
           </Typography>
         </Box>
