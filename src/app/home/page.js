@@ -41,7 +41,8 @@ export default function Page() {
     },
   });
 
-  const [emotion, setEmotion] = React.useState('');
+  // Initialize state with the value from localStorage (or default to empty string)
+  const [emotion, setEmotion] = React.useState(localStorage.getItem('selectedEmotion') || '');
   const [tracks, setTracks] = React.useState([]);
   const [error, setError] = React.useState(null);
   const [audio, setAudio] = React.useState(null);
@@ -127,6 +128,13 @@ export default function Page() {
     setManualBgColor(colors[nextIndex]);
   };
 
+  // Save emotion to localStorage whenever it changes
+  const handleEmotionChange = (event) => {
+    const selectedEmotion = event.target.value;
+    setEmotion(selectedEmotion);
+    localStorage.setItem('selectedEmotion', selectedEmotion);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -189,7 +197,7 @@ export default function Page() {
               <FormControl fullWidth sx={{ marginTop: '1rem', marginBottom: '1rem' }}>
                 <Select
                   value={emotion}
-                  onChange={(e) => setEmotion(e.target.value)}
+                  onChange={handleEmotionChange}
                   displayEmpty
                   sx={{ backgroundColor: '#FFFFFF', width: '100%' }}
                 >
