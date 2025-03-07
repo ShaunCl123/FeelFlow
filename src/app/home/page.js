@@ -11,6 +11,8 @@ import Paper from '@mui/material/Paper';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
+import { auth } from '../../lib/firebase'; // Import Firebase Auth
+import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
 
 const emotionLinks = {
   Happy: [
@@ -41,7 +43,8 @@ export default function Page() {
     },
   });
 
-  // Initialize state with the value from localStorage (or default to empty string)
+  const [user, setUser] = React.useState(null); // Manage user authentication state
+  const [loading, setLoading] = React.useState(true); // Loading state for authentication
   const [emotion, setEmotion] = React.useState(localStorage.getItem('selectedEmotion') || '');
   const [tracks, setTracks] = React.useState([]);
   const [error, setError] = React.useState(null);
@@ -56,6 +59,15 @@ export default function Page() {
     Active: 'rgba(0, 255, 0, 0.3)',  // Green
     Focused: 'rgba(128, 0, 128, 0.3)', // Purple
   };
+
+  // Handle user login state
+  React.useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+    return unsubscribe;
+  }, []);
 
   const fetchPlaylistTracks = async () => {
     if (!emotion) {
@@ -135,6 +147,24 @@ export default function Page() {
     localStorage.setItem('selectedEmotion', selectedEmotion);
   };
 
+  // Handle user login
+  const handleLogin = async (email, password) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.error("Login Error: ", error.message);
+    }
+  };
+
+  // Handle user logout
+  const handleLogout = () => {
+    signOut(auth).then(() => {
+      console.log("User signed out");
+    }).catch((error) => {
+      console.error("Logout Error: ", error.message);
+    });
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -184,6 +214,22 @@ export default function Page() {
             <h1 style={{ color: 'white', fontFamily: 'Cascadia Mono, sans-serif', fontSize: '3em' }}>
               FeelFlow
             </h1>
+
+            {/* Login Form */}
+            {!user ? (
+              <Box>
+                <Typography variant="h6" color="white">
+                  Please log in
+                </Typography>
+                <Button variant="contained" color="secondary" onClick={() => handleLogin('test@example.com', 'password123')}>
+                  Log In
+                </Button>
+              </Box>
+            ) : (
+              <Button variant="contained" color="secondary" onClick={handleLogout}>
+                Log Out
+              </Button>
+            )}
 
             {/* Form and Playlists */}
             <Paper elevation={3} sx={{ padding: 2, backgroundColor: '#000000', marginTop: '20px' }}>
@@ -290,14 +336,13 @@ export default function Page() {
             {/* Helpful Links Section */}
             {emotion && (
               <Paper elevation={3} sx={{ padding: 2, backgroundColor: '#000000', marginTop: '20px' }}>
-                <Typography variant="body1" color="white" sx={{ marginTop: '1rem' }}>
-                  Based on your mood, here are some helpful resources you might find useful:
+                <Typography variant="h6" color="white">
+                  Helpful Links for "{emotion}" Mood
                 </Typography>
-                <Typography variant="h6" color="white">Helpful Links</Typography>
-                <ul style={{ listStyleType: 'none', padding: 0, color: 'white' }}>
+                <ul style={{ listStyleType: 'none', padding: 0 }}>
                   {emotionLinks[emotion].map((link, index) => (
                     <li key={index} style={{ marginBottom: '10px' }}>
-                      <a href={link.url} target="_blank" rel="noopener noreferrer" style={{ color: 'cyan' }}>
+                      <a href={link.url} target="_blank" rel="noopener noreferrer" style={{ color: 'lightblue' }}>
                         {link.text}
                       </a>
                     </li>
@@ -307,31 +352,6 @@ export default function Page() {
             )}
           </Box>
         </Container>
-
-        {/* Background Color Change Button */}
-        <Box
-          sx={{
-            backgroundColor: '#000000',
-            width: '100%',
-            padding: '20px',
-            textAlign: 'center',
-            marginTop: 'auto',
-            zIndex: 3, // Ensure the button is clickable by placing it above the overlay
-            position: 'relative', // Set it to relative to control zIndex properly
-          }}
-        >
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={{ marginTop: '20px' }}
-            onClick={changeBgColor}
-          >
-            Change Background Color
-          </Button>
-          <Typography variant="body1" color="primary" sx={{ marginTop: '10px' }}>
-            © 2024 All rights reserved.
-          </Typography>
-        </Box>
       </Box>
     </ThemeProvider>
   );
