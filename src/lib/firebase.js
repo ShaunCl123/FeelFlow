@@ -2,6 +2,7 @@
 import { getFirestore } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";  // Import Firebase Authentication
+import { useEffect, useState } from 'react';
 
 // Firebase configuration (use environment variables for security)
 const firebaseConfig = {
@@ -14,13 +15,30 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
-// Initialize Firebase only on the client-side
-let app;
-if (typeof window !== "undefined") {
-  app = initializeApp(firebaseConfig);
-}
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
-// Export Firebase services (only if app is initialized)
-export const auth = app ? getAuth(app) : null;  // Initialize Firebase Authentication if app is initialized
-export const db = app ? getFirestore(app) : null;  // Initialize Firestore if app is initialized
-export default app;
+// Export Firebase services
+export const auth = getAuth(app);  // Initialize Firebase Authentication
+export const db = getFirestore(app);  // Initialize Firestore
+export { app }; // Named export for app
+
+// Default export for HomePage
+export default function HomePage() {
+  const [lastSelectedEmotion, setLastSelectedEmotion] = useState(null);
+
+  useEffect(() => {
+    // Ensure this only runs on the client-side
+    if (typeof window !== "undefined") {
+      const storedEmotion = localStorage.getItem('lastSelectedEmotion');
+      setLastSelectedEmotion(storedEmotion);
+    }
+  }, []);
+
+  return (
+    <div>
+      <h1>FeelFlow</h1>
+      <p>Last selected emotion: {lastSelectedEmotion}</p>
+    </div>
+  );
+}
