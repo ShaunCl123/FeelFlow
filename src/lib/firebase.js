@@ -14,6 +14,11 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
+// Make sure the environment variables are available
+if (!firebaseConfig.apiKey || !firebaseConfig.authDomain || !firebaseConfig.projectId) {
+  throw new Error("Firebase configuration is missing required environment variables.");
+}
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
