@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
 import fetch from 'node-fetch';
+import { MongoClient } from 'mongodb';
 
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 const TOKEN_URL = "https://accounts.spotify.com/api/token";
+const MONGO_URL = process.env.MONGO_URL || "mongodb+srv://shaun:shaun123@cluster0.hgdl308.mongodb.net/?retryWrites=true&w=majority"; // MongoDB URL
 
 const PLAYLISTS = {
   Happy: "6oAh8LZ42ITzHqZRO89J63",
@@ -43,6 +45,28 @@ const getAccessToken = async () => {
   return accessToken;
 };
 
+// MongoDB client
+const client = new MongoClient(MONGO_URL);
+
+async function getUser(email) {
+  await client.connect();
+  const db = client.db('FeelFlowDB');
+  const users = db.collection('users');
+  return users.findOne({ email });
+}
+
+async function createUser(email, password) {
+  await client.connect();
+  const db = client.db('FeelFlowDB');
+  const users = db.collection('users');
+  const newUser = {
+    email,
+    password,  // In a real app, hash passwords before storing them!
+  };
+  const result = await users.insertOne(newUser);
+  return result;
+}
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const emotion = searchParams.get('emotion');
@@ -69,5 +93,27 @@ export async function GET(request) {
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
+
+export async function POST(request) {
+  const { email, password } = await request.json();
+
+  try {
+    const existingUser = await getUser(email);
+    if (existingUser) {
+      // User found, log them in
+      if (existingUser.password === password) {
+        return NextResponse.json({ message: 'Login successful' });
+      } else {
+        return NextResponse.json({ error: 'Incorrect password' }, { status: 400 });
+      }
+    } else {
+      // User doesn't exist, create a new account
+      await createUser(email, password);
+      return NextResponse.json({ message: 'User created successfully, please log in.' });
+    }
+  } catch (error) {
+    return NextResponse.json({ error: 'An error occurred while processing your request.' }, { status: 500 });
   }
 }
