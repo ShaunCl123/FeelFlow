@@ -11,6 +11,8 @@ import Paper from '@mui/material/Paper';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
+import { auth, saveEmotion, getEmotion, loginUser } from '../../lib/firebase.js'; // Import Firebase functions
+import { onAuthStateChanged } from 'firebase/auth';
 
 const emotionLinks = {
   Happy: [
@@ -47,14 +49,34 @@ export default function Page() {
   const [audio, setAudio] = React.useState(null);
   const [selectedFullTrack, setSelectedFullTrack] = React.useState('');
   const [songCount, setSongCount] = React.useState(5);
-  const [manualBgColor, setManualBgColor] = React.useState('transparent'); // Track background color
+  const [manualBgColor, setManualBgColor] = React.useState('transparent');
+  const [user, setUser] = React.useState(null);
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [loginError, setLoginError] = React.useState('');
 
   const emotionBgColors = {
-    Happy: 'rgba(255, 223, 0, 0.3)',  // Yellow
-    Sad: 'rgba(0, 0, 255, 0.2)',     // Blue
-    Active: 'rgba(0, 255, 0, 0.3)',  // Green
-    Focused: 'rgba(128, 0, 128, 0.3)', // Purple
+    Happy: 'rgba(255, 223, 0, 0.3)',
+    Sad: 'rgba(0, 0, 255, 0.2)',
+    Active: 'rgba(0, 255, 0, 0.3)',
+    Focused: 'rgba(128, 0, 128, 0.3)',
   };
+
+  // Check user authentication state
+  React.useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUser(user);
+        const storedEmotion = await getEmotion(user.uid);
+        if (storedEmotion) {
+          setEmotion(storedEmotion);  // Set last selected emotion
+        }
+      } else {
+        setUser(null);
+      }
+    });
+    return unsubscribe;
+  }, []);
 
   const fetchPlaylistTracks = async () => {
     if (!emotion) {
@@ -79,8 +101,11 @@ export default function Page() {
       setTracks(selectedTracks);
       setError(null);
 
-      // Change background color based on selected emotion
       setManualBgColor(emotionBgColors[emotion]);
+
+      if (user) {
+        await saveEmotion(user.uid, emotion); // Save selected emotion for user
+      }
     } catch (error) {
       setError(`Error fetching tracks: ${error.message}`);
       setTracks([]);
@@ -119,7 +144,6 @@ export default function Page() {
     }
   };
 
-  // Function to cycle through predefined background colors when button is clicked
   const changeBgColor = () => {
     const colors = ['rgba(255, 223, 0, 0.3)', 'rgba(0, 0, 255, 0.2)', 'rgba(0, 255, 0, 0.3)', 'rgba(128, 0, 128, 0.3)', 'transparent'];
     const currentIndex = colors.indexOf(manualBgColor);
@@ -127,12 +151,21 @@ export default function Page() {
     setManualBgColor(colors[nextIndex]);
   };
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      await loginUser(email, password);
+    } catch (error) {
+      setLoginError(error.message);
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box
         sx={{
-          minHeight: '100vh', // Ensure it stretches the full height of the viewport
+          minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
           backgroundImage: 'url(/images/main.png)',
@@ -141,7 +174,6 @@ export default function Page() {
           position: 'relative',
         }}
       >
-        {/* Overlay Tint Box */}
         <Box
           sx={{
             position: 'absolute',
@@ -149,12 +181,11 @@ export default function Page() {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: manualBgColor,  // Use the dynamic background color
-            zIndex: 1,  // Lower zIndex to ensure it stays under the button
+            backgroundColor: manualBgColor,
+            zIndex: 1,
           }}
         />
 
-        {/* Content Box */}
         <Container
           component="main"
           maxWidth="md"
@@ -162,7 +193,7 @@ export default function Page() {
             flexGrow: 1,
             padding: '20px',
             position: 'relative',
-            zIndex: 2, // Ensure content is above the tint overlay
+            zIndex: 2,
           }}
         >
           <Box
@@ -177,50 +208,86 @@ export default function Page() {
               FeelFlow
             </h1>
 
-            {/* Form and Playlists */}
+            {/* Login Form */}
             <Paper elevation={3} sx={{ padding: 2, backgroundColor: '#000000', marginTop: '20px' }}>
               <Typography variant="h5" mt={2} mb={4} color="white">
-                Welcome to the Playlist Fetcher!
+                Login to your account
               </Typography>
-              <Typography variant="body1" align="left" color="white">
-                Choose an emotion and fetch a playlist to match your mood!
-              </Typography>
-
-              <FormControl fullWidth sx={{ marginTop: '1rem', marginBottom: '1rem' }}>
-                <Select
-                  value={emotion}
-                  onChange={(e) => setEmotion(e.target.value)}
-                  displayEmpty
-                  sx={{ backgroundColor: '#FFFFFF', width: '100%' }}
+              <form onSubmit={handleLogin}>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  style={{ marginBottom: '10px', padding: '10px', width: '100%' }}
+                />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  style={{ marginBottom: '10px', padding: '10px', width: '100%' }}
+                />
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{ width: '100%', marginTop: '10px' }}
                 >
-                  <MenuItem value="" disabled>Select emotion (e.g., Happy 😊)</MenuItem>
-                  <MenuItem value="Happy">Happy 😊</MenuItem>
-                  <MenuItem value="Sad">Sad 😢</MenuItem>
-                  <MenuItem value="Active">Active 💪</MenuItem>
-                  <MenuItem value="Focused">Focused 🎯</MenuItem>
-                </Select>
-              </FormControl>
-
-              <Typography variant="body1" align="left" color="white" sx={{ marginTop: '1rem', marginBottom: '0.5rem' }}>
-                Number of Songs
-              </Typography>
-
-              <FormControl fullWidth sx={{ marginBottom: '1rem' }}>
-                <Select
-                  value={songCount}
-                  onChange={(e) => setSongCount(e.target.value)}
-                  sx={{ backgroundColor: '#FFFFFF', width: '60%' }}
-                >
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(count => (
-                    <MenuItem key={count} value={count}>{count}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-
-              <Button variant="contained" onClick={fetchPlaylistTracks} sx={{ marginTop: '1rem' }}>
-                Fetch Playlist
-              </Button>
+                  Login
+                </Button>
+              </form>
+              {loginError && (
+                <Typography color="error" sx={{ marginTop: '10px' }}>
+                  {loginError}
+                </Typography>
+              )}
             </Paper>
+
+            {/* Emotion Selection and Playlist Fetcher */}
+            {user && (
+              <Paper elevation={3} sx={{ padding: 2, backgroundColor: '#000000', marginTop: '20px' }}>
+                <Typography variant="h5" color="white">
+                  Select Emotion and Fetch Playlist
+                </Typography>
+
+                <FormControl fullWidth sx={{ marginTop: '1rem', marginBottom: '1rem' }}>
+                  <Select
+                    value={emotion}
+                    onChange={(e) => setEmotion(e.target.value)}
+                    displayEmpty
+                    sx={{ backgroundColor: '#FFFFFF', width: '100%' }}
+                  >
+                    <MenuItem value="" disabled>Select emotion (e.g., Happy 😊)</MenuItem>
+                    <MenuItem value="Happy">Happy 😊</MenuItem>
+                    <MenuItem value="Sad">Sad 😢</MenuItem>
+                    <MenuItem value="Active">Active 💪</MenuItem>
+                    <MenuItem value="Focused">Focused 🎯</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <Typography variant="body1" align="left" color="white" sx={{ marginTop: '1rem', marginBottom: '0.5rem' }}>
+                  Number of Songs
+                </Typography>
+
+                <FormControl fullWidth sx={{ marginBottom: '1rem' }}>
+                  <Select
+                    value={songCount}
+                    onChange={(e) => setSongCount(e.target.value)}
+                    sx={{ backgroundColor: '#FFFFFF', width: '60%' }}
+                  >
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(count => (
+                      <MenuItem key={count} value={count}>{count}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <Button variant="contained" onClick={fetchPlaylistTracks} sx={{ marginTop: '1rem' }}>
+                  Fetch Playlist
+                </Button>
+              </Paper>
+            )}
 
             {error && (
               <Typography color="error" sx={{ marginTop: '20px' }}>
@@ -228,7 +295,6 @@ export default function Page() {
               </Typography>
             )}
 
-            {/* Track List and Controls */}
             <Paper elevation={3} sx={{ padding: 2, backgroundColor: '#000000', marginTop: '20px' }}>
               <Typography variant="h6" color="white">Fetched Tracks: {tracks.length} Songs</Typography>
               <ul style={{ listStyleType: 'none', padding: 0 }}>
@@ -278,29 +344,9 @@ export default function Page() {
                 </Button>
               </Box>
             </Paper>
-
-            {/* Helpful Links Section */}
-            {emotion && (
-              <Paper elevation={3} sx={{ padding: 2, backgroundColor: '#000000', marginTop: '20px' }}>
-                <Typography variant="body1" color="white" sx={{ marginTop: '1rem' }}>
-                  Based on your mood, here are some helpful resources you might find useful:
-                </Typography>
-                <Typography variant="h6" color="white">Helpful Links</Typography>
-                <ul style={{ listStyleType: 'none', padding: 0, color: 'white' }}>
-                  {emotionLinks[emotion].map((link, index) => (
-                    <li key={index} style={{ marginBottom: '10px' }}>
-                      <a href={link.url} target="_blank" rel="noopener noreferrer" style={{ color: 'cyan' }}>
-                        {link.text}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </Paper>
-            )}
           </Box>
         </Container>
 
-        {/* Background Color Change Button */}
         <Box
           sx={{
             backgroundColor: '#000000',
@@ -308,21 +354,18 @@ export default function Page() {
             padding: '20px',
             textAlign: 'center',
             marginTop: 'auto',
-            zIndex: 3, // Ensure the button is clickable by placing it above the overlay
-            position: 'relative', // Set it to relative to control zIndex properly
+            zIndex: 3,
+            position: 'relative',
           }}
         >
           <Button
             variant="contained"
             color="secondary"
-            sx={{ marginTop: '20px' }}
+            sx={{ marginTop: '10px' }}
             onClick={changeBgColor}
           >
             Change Background Color
           </Button>
-          <Typography variant="body1" color="primary" sx={{ marginTop: '10px' }}>
-            © 2024 All rights reserved.
-          </Typography>
         </Box>
       </Box>
     </ThemeProvider>
