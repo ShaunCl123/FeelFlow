@@ -12,6 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid'; // Added for responsive design
+import Link from 'next/link'; // <-- Make sure you import Link from next/link
 
 const emotionLinks = {
   Happy: [
@@ -48,13 +49,13 @@ export default function Page() {
   const [audio, setAudio] = React.useState(null);
   const [selectedFullTrack, setSelectedFullTrack] = React.useState('');
   const [songCount, setSongCount] = React.useState(5);
-  const [manualBgColor, setManualBgColor] = React.useState('transparent'); // Track background color
+  const [manualBgColor, setManualBgColor] = React.useState('transparent');
 
   const emotionBgColors = {
-    Happy: 'rgba(255, 223, 0, 0.3)',  // Yellow
-    Sad: 'rgba(0, 0, 255, 0.2)',     // Blue
-    Active: 'rgba(0, 255, 0, 0.3)',  // Green
-    Focused: 'rgba(128, 0, 128, 0.3)', // Purple
+    Happy: 'rgba(255, 223, 0, 0.3)',
+    Sad: 'rgba(0, 0, 255, 0.2)',
+    Active: 'rgba(0, 255, 0, 0.3)',
+    Focused: 'rgba(128, 0, 128, 0.3)',
   };
 
   const fetchPlaylistTracks = async () => {
@@ -79,8 +80,6 @@ export default function Page() {
 
       setTracks(selectedTracks);
       setError(null);
-
-      // Change background color based on selected emotion
       setManualBgColor(emotionBgColors[emotion]);
     } catch (error) {
       setError(`There was an issue fetching the playlist. Please try again later.`);
@@ -120,7 +119,6 @@ export default function Page() {
     }
   };
 
-  // Function to cycle through predefined background colors when button is clicked
   const changeBgColor = () => {
     const colors = ['rgba(255, 223, 0, 0.3)', 'rgba(0, 0, 255, 0.2)', 'rgba(0, 255, 0, 0.3)', 'rgba(128, 0, 128, 0.3)', 'transparent'];
     const currentIndex = colors.indexOf(manualBgColor);
@@ -133,7 +131,7 @@ export default function Page() {
       <CssBaseline />
       <Box
         sx={{
-          minHeight: '100vh', // Ensure it stretches the full height of the viewport
+          minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
           backgroundImage: 'url(/images/main.png)',
@@ -142,7 +140,6 @@ export default function Page() {
           position: 'relative',
         }}
       >
-        {/* Overlay Tint Box */}
         <Box
           sx={{
             position: 'absolute',
@@ -150,12 +147,10 @@ export default function Page() {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: manualBgColor,  // Use the dynamic background color
-            zIndex: 1,  // Lower zIndex to ensure it stays under the button
+            backgroundColor: manualBgColor,
+            zIndex: 1,
           }}
         />
-
-        {/* Content Box */}
         <Container
           component="main"
           maxWidth="md"
@@ -163,7 +158,7 @@ export default function Page() {
             flexGrow: 1,
             padding: '20px',
             position: 'relative',
-            zIndex: 2, // Ensure content is above the tint overlay
+            zIndex: 2,
           }}
         >
           <Box
@@ -178,7 +173,6 @@ export default function Page() {
               FeelFlow
             </h1>
 
-            {/* Form and Playlists */}
             <Paper elevation={3} sx={{ padding: 2, backgroundColor: '#000000', marginTop: '20px' }}>
               <Typography variant="h5" mt={2} mb={4} color="white">
                 Welcome to the Playlist Fetcher!
@@ -212,7 +206,7 @@ export default function Page() {
                   onChange={(e) => setSongCount(e.target.value)}
                   sx={{ backgroundColor: '#FFFFFF', width: '60%' }}
                 >
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(count => (
+                  {[1,2,3,4,5,6,7,8,9,10].map(count => (
                     <MenuItem key={count} value={count}>{count}</MenuItem>
                   ))}
                 </Select>
@@ -223,7 +217,7 @@ export default function Page() {
                 onClick={fetchPlaylistTracks}
                 sx={{
                   marginTop: '1rem',
-                  ':hover': { backgroundColor: green[700] } // Hover effect
+                  ':hover': { backgroundColor: green[700] }
                 }}
               >
                 Fetch Playlist
@@ -236,7 +230,6 @@ export default function Page() {
               </Typography>
             )}
 
-            {/* Track List and Controls */}
             <Paper elevation={3} sx={{ padding: 2, backgroundColor: '#000000', marginTop: '20px' }}>
               <Typography variant="h6" color="white">Fetched Tracks: {tracks.length} Songs</Typography>
               <ul style={{ listStyleType: 'none', padding: 0 }}>
@@ -247,7 +240,7 @@ export default function Page() {
                       variant="contained"
                       color="secondary"
                       onClick={() => playTrack(index)}
-                      sx={{ marginLeft: '10px', ':hover': { backgroundColor: green[700] } }} // Hover effect
+                      sx={{ marginLeft: '10px', ':hover': { backgroundColor: green[700] } }}
                     >
                       Play
                     </Button>
@@ -260,7 +253,7 @@ export default function Page() {
                   variant="contained"
                   color="secondary"
                   onClick={stopTrack}
-                  sx={{ marginRight: '10px', ':hover': { backgroundColor: green[700] } }} // Hover effect
+                  sx={{ marginRight: '10px', ':hover': { backgroundColor: green[700] } }}
                 >
                   Stop
                 </Button>
@@ -285,14 +278,13 @@ export default function Page() {
                   variant="contained"
                   color="secondary"
                   onClick={playFullTrack}
-                  sx={{ marginTop: '10px', ':hover': { backgroundColor: green[700] } }} // Hover effect
+                  sx={{ marginTop: '10px', ':hover': { backgroundColor: green[700] } }}
                 >
                   Play Full
                 </Button>
               </Box>
             </Paper>
 
-            {/* Helpful Links Section */}
             {emotion && (
               <Paper elevation={3} sx={{ padding: 2, backgroundColor: '#000000', marginTop: '20px' }}>
                 <Typography variant="body1" color="white" sx={{ marginTop: '1rem' }}>
@@ -313,7 +305,6 @@ export default function Page() {
           </Box>
         </Container>
 
-        {/* Background Color Change Button */}
         <Box
           sx={{
             backgroundColor: '#000000',
@@ -321,14 +312,19 @@ export default function Page() {
             padding: '20px',
             textAlign: 'center',
             marginTop: 'auto',
-            zIndex: 3, // Ensure the button is clickable by placing it above the overlay
-            position: 'relative', // Set it to relative to control zIndex properly
+            zIndex: 3,
+            position: 'relative',
           }}
         >
+          {/* New link to /calendar */}
+          <Link href="/calendar" style={{ color: 'cyan', textDecoration: 'underline' }}>
+            View your reminders here
+          </Link>
+
           <Button
             variant="contained"
             color="secondary"
-            sx={{ marginTop: '20px', ':hover': { backgroundColor: green[700] } }} // Hover effect
+            sx={{ marginTop: '20px', display: 'block', marginLeft: 'auto', marginRight: 'auto', ':hover': { backgroundColor: green[700] } }}
             onClick={changeBgColor}
           >
             Change Background Color
