@@ -20,34 +20,27 @@ export default function LoginPage() {
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
 
-  // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     if (isRegistering && password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
-
-    // API Request to register or login
-    const res = await fetch('/api/route', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password, isRegistering }),
-    });
-
-    const data = await res.json();
-
-    if (res.ok) {
-      setMessage(data.message); // Handle success
-      // Redirect after successful login or registration
-      window.location.href = '/home';
-    } else {
-      setError(data.error); // Handle errors
+  
+    if (!email || !password) {
+      setError('Email and password are required');
+      return;
     }
+  
+    // Simulate API response with a delay
+    setTimeout(() => {
+      setMessage(isRegistering ? 'Registered successfully!' : 'Logged in successfully!');
+      localStorage.setItem('feelflow-user', JSON.stringify({ email }));
+      window.location.href = '/home';
+    }, 500);
   };
+  
 
   // Handle browsing as guest
   const handleBrowseAsGuest = () => {
