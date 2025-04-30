@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { Box, Button, CssBaseline, Typography, Container, Paper, TextField } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
 
 export default function LoginPage() {
   const theme = createTheme({
@@ -12,45 +12,43 @@ export default function LoginPage() {
     },
   });
 
-  // State to manage form inputs and states
+  const themeContext = useTheme();
+  const isDark = themeContext.palette.mode === 'dark';
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [isRegistering, setIsRegistering] = useState(false); // Track if the user is registering or logging in
+  const [isRegistering, setIsRegistering] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     if (isRegistering && password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
-  
+
     if (!email || !password) {
       setError('Email and password are required');
       return;
     }
-  
-    // Simulate API response with a delay
+
     setTimeout(() => {
       setMessage(isRegistering ? 'Registered successfully!' : 'Logged in successfully!');
       localStorage.setItem('feelflow-user', JSON.stringify({ email }));
       window.location.href = '/home';
     }, 500);
   };
-  
 
-  // Handle browsing as guest
   const handleBrowseAsGuest = () => {
-    window.location.href = '/home'; // Redirect to home page without login
+    window.location.href = '/home';
   };
 
-  // Toggle between Login and Register forms
   const toggleForm = () => {
     setIsRegistering((prevState) => !prevState);
-    setError(null); // Reset error when toggling
+    setError(null);
   };
 
   return (
@@ -59,7 +57,7 @@ export default function LoginPage() {
         <CssBaseline />
         <Box
           sx={{
-            backgroundColor: '#000000', // Set header background color to black
+            backgroundColor: '#000000',
             width: '100%',
             padding: '20px',
             textAlign: 'center',
@@ -103,7 +101,6 @@ export default function LoginPage() {
                 {isRegistering ? 'Register Your Account' : 'Login to Explore'}
               </Typography>
 
-              {/* Form */}
               <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
                 <TextField
                   variant="outlined"
@@ -116,7 +113,25 @@ export default function LoginPage() {
                   autoFocus
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  sx={{ mb: 2 }}
+                  sx={{
+                    mb: 2,
+                    backgroundColor: 'white',
+                    '& .MuiOutlinedInput-root': {
+                      '& fieldset': {
+                        borderColor: '#ffffff',
+                      },
+                      '&:hover fieldset': {
+                        borderColor: '#ffffff',
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: '#ffffff',
+                      },
+                    },
+                    input: { color: '#000000' },
+                  }}
+                  InputLabelProps={{
+                    style: { color: '#000000' },
+                  }}
                 />
                 <TextField
                   variant="outlined"
@@ -129,7 +144,25 @@ export default function LoginPage() {
                   autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  sx={{ mb: 2 }}
+                  sx={{
+                    mb: 2,
+                    backgroundColor: 'white',
+                    '& .MuiOutlinedInput-root': {
+                      '& fieldset': {
+                        borderColor: '#ffffff',
+                      },
+                      '&:hover fieldset': {
+                        borderColor: '#ffffff',
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: '#ffffff',
+                      },
+                    },
+                    input: { color: '#000000' },
+                  }}
+                  InputLabelProps={{
+                    style: { color: '#000000' },
+                  }}
                 />
                 {isRegistering && (
                   <TextField
@@ -142,7 +175,25 @@ export default function LoginPage() {
                     id="confirmPassword"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    sx={{ mb: 2 }}
+                    sx={{
+                      mb: 2,
+                      backgroundColor: 'white',
+                      '& .MuiOutlinedInput-root': {
+                        '& fieldset': {
+                          borderColor: '#ffffff',
+                        },
+                        '&:hover fieldset': {
+                          borderColor: '#ffffff',
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderColor: '#ffffff',
+                        },
+                      },
+                      input: { color: '#000000' },
+                    }}
+                    InputLabelProps={{
+                      style: { color: '#000000' },
+                    }}
                   />
                 )}
                 {error && <Typography color="error" variant="body2">{error}</Typography>}
@@ -151,27 +202,47 @@ export default function LoginPage() {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
+                  sx={{
+                    mt: 3,
+                    mb: 2,
+                    backgroundColor: 'white',
+                    color: 'black',
+                    '&:hover': {
+                      backgroundColor: '#f0f0f0',
+                    },
+                  }}
                 >
                   {isRegistering ? 'Register' : 'Login'}
                 </Button>
               </Box>
 
-              {/* Toggle between Login and Register */}
               <Button
                 fullWidth
                 variant="outlined"
-                sx={{ mt: 2 }}
+                sx={{
+                  mt: 2,
+                  color: 'white',
+                  borderColor: 'white',
+                  '&:hover': {
+                    backgroundColor: '#333',
+                    borderColor: 'white',
+                  },
+                }}
                 onClick={toggleForm}
               >
                 {isRegistering ? 'Already have an account? Login' : 'New here? Register'}
               </Button>
 
-              {/* Browse as guest */}
               <Button
                 fullWidth
                 variant="text"
-                sx={{ mt: 2 }}
+                sx={{
+                  mt: 2,
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: '#333',
+                  },
+                }}
                 onClick={handleBrowseAsGuest}
               >
                 Browse as Guest
@@ -182,7 +253,7 @@ export default function LoginPage() {
 
         <Box
           sx={{
-            backgroundColor: '#000000', // Set footer background color to black
+            backgroundColor: '#000000',
             width: '100%',
             padding: '20px',
             textAlign: 'center',
